@@ -22,11 +22,6 @@ public class LoginRegistrationActivity extends AppCompatActivity {
     boolean userIsLoggedIn = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(userIsLoggedIn){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_registration);
 
@@ -59,5 +54,10 @@ public class LoginRegistrationActivity extends AppCompatActivity {
         }
     };
 
+    public void makeMainActivityIntent(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 }
