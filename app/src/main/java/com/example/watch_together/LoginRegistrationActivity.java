@@ -4,9 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -28,6 +34,8 @@ public class LoginRegistrationActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(navListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.registerFragmentContainerView, new loginFragment()).commit();
+
+
     }
 
     private NavigationBarView.OnItemSelectedListener navListener = new NavigationBarView.OnItemSelectedListener() {
@@ -41,7 +49,7 @@ public class LoginRegistrationActivity extends AppCompatActivity {
                     //code
                     selectedFragment = new loginFragment();
                     break;
-                case R.id.registerFragment:r:
+                case R.id.registerFragment:
                     //code
                     selectedFragment = new registerFragment();
                     break;
@@ -50,5 +58,6 @@ public class LoginRegistrationActivity extends AppCompatActivity {
             return true;
         }
     };
+
 
 }

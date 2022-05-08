@@ -13,4 +13,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="please_log_in">Please Log in to your Account</string>
     <string name="please_register">Please register a new Account</string>
+    <string name="google_account_login">Alternatively, you can use your Goolge Account</string>
 </resources>
