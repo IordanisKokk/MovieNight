@@ -9,7 +9,10 @@
         android:logo="@drawable/ic_logo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WatchTogether" >
+        android:theme="@style/Theme.WatchTogether">
+<!--        android:theme="@style/Theme.AppCompat.Light.NoActionBar">-->
+
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />

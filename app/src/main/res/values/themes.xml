@@ -2,13 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.WatchTogether" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">#9DD8FF</item>
+        <item name="colorPrimaryVariant">#64A1D3</item>
+        <item name="colorOnPrimary">#000000</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#2890D6</item>
-        <item name="colorSecondaryVariant">#0F5791</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">#9DD8FF</item>
+        <item name="colorSecondaryVariant">#64A1D3</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->

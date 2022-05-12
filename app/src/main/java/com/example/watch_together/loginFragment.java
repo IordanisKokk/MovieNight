@@ -85,6 +85,21 @@ public class loginFragment extends Fragment {
 
     }
 
+    /**
+     *
+     * In the onCreateView method, the view of the fragment gets created.
+     * First, an instance of the FirebaseAuth gets instantiated with the getInstance() method of
+     * the FirebaseAuth class.
+     * Then an AuthStateListener() gets instantiated that listens for AuthState changes, in order to
+     * finish the LoginRegistrationActivity and create an Intent to launch the MainActivity, once the user's
+     * account is logged in or registered. It also checks if the user has already logged in with his account before
+     * so that the MainActivity can be launched immediately when opening the app.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,11 +118,22 @@ public class loginFragment extends Fragment {
         };
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_login, container, false);
+
+
+         //instantiating all the ui elements contained in the loginFragment.
+
         loginButton = (Button) view.findViewById(R.id.loginButton);
-        email = (EditText) view.findViewById(R.id.email);
-        password = (EditText) view.findViewById(R.id.password);
+        email = (EditText) view.findViewById(R.id.email_edit_text);
+        password = (EditText) view.findViewById(R.id.password_edit_text);
         forgotPasswordLink = (TextView) view.findViewById(R.id.forgotPsswrd);
 
+        /*
+          Adding an OnClickListener to the loginButton, that gets the user's email and password
+          from the EditText elements in the loginFragment and uses the instance of FireBaseAuth to
+          sign in the user with his email and password (fireBaseAuth.signInWithEmailAndPassword()
+          and an OnCompleteListener is added to display a toast notifying the user in the case of
+          a login error/failure.
+         */
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +150,12 @@ public class loginFragment extends Fragment {
             }
         });
 
+        /*
+          an OnClickListener is added to the forgotPasswordLink TextView, so that the user can
+          click on it in case he has forgotten his password.
+          For now, this only shows a toast on the screen with the text "Reset Password".
+          TODO : add the functionality for password reset.
+         */
         forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,12 +169,20 @@ public class loginFragment extends Fragment {
         return view;
     }
 
+    /**
+     * onStart() method used to add the AuthStateListener created above on the instance of the
+     * FireBaseAuth.
+     */
     @Override
     public void onStart() {
         super.onStart();
         fireBaseAuth.addAuthStateListener(firebaseAuthStateListener);
     }
 
+    /**
+     * onStop() method used to remove the AuthStateListener created above on the instance of the
+     * FireBaseAuth when the fragment stops.
+     */
     @Override
     public void onStop() {
         super.onStop();

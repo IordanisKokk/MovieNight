@@ -1,20 +1,21 @@
 {
   "project_info": {
-    "project_number": "1014753342825",
-    "project_id": "movienight-8ec60",
-    "storage_bucket": "movienight-8ec60.appspot.com"
+    "project_number": "1037069268790",
+    "firebase_url": "https://movienight-659f5-default-rtdb.firebaseio.com",
+    "project_id": "movienight-659f5",
+    "storage_bucket": "movienight-659f5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1014753342825:android:e034bbd5bf521cf78d79f8",
+        "mobilesdk_app_id": "1:1037069268790:android:adbfefca94023040fc6597",
         "android_client_info": {
           "package_name": "com.example.watch_together"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1014753342825-br5017hn37j6ldtfk37e55q6k3bja0o8.apps.googleusercontent.com",
+          "client_id": "1037069268790-dmeau396kheh4be27i9jmpl638ps4loj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.watch_together",
@@ -22,20 +23,20 @@
           }
         },
         {
-          "client_id": "1014753342825-2f2ruk39ulke56fmumnr8ls1g8v5kk3m.apps.googleusercontent.com",
+          "client_id": "1037069268790-p3mti8tfaoggu0eo72t5klutkhtbcgqe.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD73WLLzkje6eIEBV4SnUTM7K9RciTPB1c"
+          "current_key": "AIzaSyCbxeGz7p_bijBXs6F11UKbGoJ5q_EyzB8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1014753342825-2f2ruk39ulke56fmumnr8ls1g8v5kk3m.apps.googleusercontent.com",
+              "client_id": "1037069268790-p3mti8tfaoggu0eo72t5klutkhtbcgqe.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

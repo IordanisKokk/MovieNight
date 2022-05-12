@@ -2,14 +2,16 @@ package com.example.watch_together;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,13 +24,18 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(navListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new homeFragment()).commit();
-//        loginOrRegister();
     }
 
-//    private void loginOrRegister(){
-//        Intent intent = new Intent(this, LoginRegistrationActivity.class);
-//        startActivity(intent);
-//    }
+    /**
+     *
+     * This is a navigationBar listener that listens to changes made on the navbar
+     * It is specifically a OnItemSelectedListener and depending on the selected item
+     * creates a new instance of the fragment that the user wants to select (homeFragment,
+     * searchFragment, profileFragment) using a switch statement
+     * Finally, it uses an object of the FragmentManager class to replace the current fragment with
+     * the selected fragment.
+     *
+     */
 
     private NavigationBarView.OnItemSelectedListener navListener = new NavigationBarView.OnItemSelectedListener() {
 

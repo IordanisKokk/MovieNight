@@ -18,10 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +34,22 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class registerFragment extends Fragment {
 
-    View view;
+    private View view;
     private FirebaseAuth fireBaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+
+    /*
+    An object of the class DAOUser is created in order to access the class and its methods, so that
+    we can add our users in the Firebase Real Time Database
+     */
+    private DAOUser daoUser = new DAOUser();
+
+    /*
+    This is an object of the model Class user. It is the object of a new user that is about to be created
+    in the registerFragment. We instantiate the attributes of the object and then if the registration is
+    complete we pass that object to the daoUser class to be added in the Firebase Real Time Database.
+     */
+    private User newUser;
 
     private Button signupButton;
     private EditText username;
@@ -98,12 +115,22 @@ public class registerFragment extends Fragment {
         };
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_registration, container, false);
+
+        //instantiating all the ui elements contained in the loginFragment.
         signupButton = (Button) view.findViewById(R.id.signUpButton);
         username = (EditText) view.findViewById(R.id.username);
         email = (EditText) view.findViewById(R.id.email);
         password = (EditText) view.findViewById(R.id.password);
         confirmedPassword = (EditText) view.findViewById(R.id.confirmPassword);
 
+         /*
+          Adding an OnClickListener to the signupButton, that gets the user's username, email, password
+          and confirmed password from the EditText elements in the loginFragment, checks if the password and
+          the confirmed password match and then uses the instance of FireBaseAuth to create a new user with his
+          email and password (fireBaseAuth.createUserWithEmailAndPassword() and an OnCompleteListener is added
+          to add the user using the DAOUser class and add him to the Firebase Real Time Database when the AuthResult
+          task was successful, otherwise a toast is created with the text "sign_up_error" and shown.
+         */
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +141,7 @@ public class registerFragment extends Fragment {
                 final String fConfirmedPassword = confirmedPassword.getText().toString();
                 if(fPassword.equals(fConfirmedPassword)){
                     final String finalPassword = password.getText().toString();
+                    newUser = new User(finalUsername, finalEmail);
                     fireBaseAuth.createUserWithEmailAndPassword(finalEmail, finalPassword).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -121,8 +149,16 @@ public class registerFragment extends Fragment {
                                 Toast toast = Toast.makeText(getActivity(), "sign_up_error", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
+                            Log.d("dDB", "Making User");
+                            daoUser.add(newUser);
                         }
+
                     });
+
+
+                    /*
+                    If the passwords do not match, a toast is created notifying the user about it.
+                     */
                 }else{
                     Toast toast = Toast.makeText(getActivity(), "Passwords do not match", Toast.LENGTH_SHORT);
                     toast.show();
@@ -133,12 +169,20 @@ public class registerFragment extends Fragment {
         return view;
     }
 
+    /**
+     * onStart() method used to add the AuthStateListener created above on the instance of the
+     * FireBaseAuth.
+     */
     @Override
     public void onStart() {
         super.onStart();
         fireBaseAuth.addAuthStateListener(firebaseAuthStateListener);
     }
 
+    /**
+     * onStop() method used to remove the AuthStateListener created above on the instance of the
+     * FireBaseAuth when the fragment stops.
+     */
     @Override
     public void onStop() {
         super.onStop();

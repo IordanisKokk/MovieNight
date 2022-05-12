@@ -2,18 +2,39 @@ package com.example.watch_together;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link searchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+
 public class searchFragment extends Fragment {
+
+    private EditText searchField;
+    private Button searchButton;
+
+    private RecyclerView recyclerView;
+    private ArrayList<User> list;
+    DatabaseReference databaseReference;
+    SearchAdapter searchAdapter;
+
+    private RecyclerView resultList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +80,49 @@ public class searchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        searchField = (EditText) view.findViewById(R.id.search_edit_text);
+        searchButton = (Button) view.findViewById(R.id.search_button);
+
+        resultList = (RecyclerView) view.findViewById(R.id.resultList);
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        list = new ArrayList<>();
+        resultList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        searchAdapter = new SearchAdapter(getActivity(), list);
+        resultList.setAdapter(searchAdapter);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    User user = dataSnapshot.getValue(User.class);
+                    list.add(user);
+
+                    Log.d("de", ""+list.get(0).getUsername());
+                }
+                searchAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                firebaseSearch();
+            }
+        });
+
+        return view;
     }
+
+
 }
+
