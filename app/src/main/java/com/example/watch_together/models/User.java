@@ -1,4 +1,4 @@
-package com.example.watch_together;
+package com.example.watch_together.models;
 
 public class User {
 

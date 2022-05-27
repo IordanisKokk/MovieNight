@@ -1,11 +1,7 @@
-package com.example.watch_together;
+package com.example.watch_together.ui;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,28 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.example.watch_together.R;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class searchFragment extends Fragment {
 
-    private EditText searchField;
-    private Button searchButton;
 
-    private RecyclerView recyclerView;
-    private ArrayList<User> list;
-    DatabaseReference databaseReference;
-    SearchAdapter searchAdapter;
-
-    private RecyclerView resultList;
+    Button button;
+    ChipGroup chipGroup;
+    EditText searchField;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,47 +69,39 @@ public class searchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
-        searchField = (EditText) view.findViewById(R.id.search_edit_text);
-        searchButton = (Button) view.findViewById(R.id.search_button);
-
-        resultList = (RecyclerView) view.findViewById(R.id.resultList);
-        databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        list = new ArrayList<>();
-        resultList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        searchAdapter = new SearchAdapter(getActivity(), list);
-        resultList.setAdapter(searchAdapter);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
-                    list.add(user);
-
-                    Log.d("de", ""+list.get(0).getUsername());
-                }
-                searchAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        chipGroup = view.findViewById(R.id.chipGroup);
+        button = view.findViewById(R.id.searchButton);
+        searchField = (EditText) view.findViewById(R.id.title_edit_text);
 
 
-
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                firebaseSearch();
+                List<Integer> selectedChipIDs = chipGroup.getCheckedChipIds();
+                final String searchInput = searchField.getText().toString();
+                Log.d("de", "Searching");
+
+                ArrayList<Chip> chips = new ArrayList<>();
+                ArrayList<String> selectedChipTexts = new ArrayList<>();
+                for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                    if(selectedChipIDs.contains(chipGroup.getChildAt(i).getId())){
+                        chips.add((Chip) chipGroup.getChildAt(i));
+                        selectedChipTexts.add(((Chip) chipGroup.getChildAt(i)).getText().toString());
+                    }
+                }
+
+                Log.d("de", "Title: " + searchInput);
+                Log.d("de", "Genres: ");
+                for (String chip : selectedChipTexts) {
+                    Log.d("de", "-" + chip);
+                }
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new searchResultFragment()).commit();
             }
         });
 
         return view;
     }
+
 
 
 }

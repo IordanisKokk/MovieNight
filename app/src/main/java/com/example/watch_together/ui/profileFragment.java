@@ -1,19 +1,30 @@
-package com.example.watch_together;
+package com.example.watch_together.ui;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.watch_together.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link homeFragment#newInstance} factory method to
+ * Use the {@link profileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homeFragment extends Fragment {
+public class profileFragment extends Fragment {
+
+    View view;
+    private FirebaseAuth firebaseAuth;
+
+    TextView logoutButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +35,7 @@ public class homeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public homeFragment() {
+    public profileFragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +45,11 @@ public class homeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment homeFragment.
+     * @return A new instance of fragment profileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static homeFragment newInstance(String param1, String param2) {
-        homeFragment fragment = new homeFragment();
+    public static profileFragment newInstance(String param1, String param2) {
+        profileFragment fragment = new profileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,7 +69,25 @@ public class homeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        Log.d("de", ""+firebaseAuth.getCurrentUser().getEmail().toString());
+
+        TextView textViewToChange = (TextView) view.findViewById(R.id.profilename);
+        textViewToChange.setText(firebaseAuth.getCurrentUser().getEmail().toString());
+        Log.d("de", "Text view after change: "+textViewToChange.getText().toString());
+
+        logoutButton = (TextView) view.findViewById(R.id.logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "LOG", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
     }
 }
