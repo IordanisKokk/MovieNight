@@ -4,11 +4,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.watch_together.R;
+import com.example.watch_together.Utills.DbHandler;
+import com.example.watch_together.models.MovieModel;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +66,25 @@ public class searchResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_result, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_result, container, false);
+
+
+        findMovie();
+
+        return view;
     }
+
+    public void findMovie(){
+        //TODO
+        DbHandler dBHandler = new DbHandler(getActivity(), null, null, 1);
+        ArrayList<MovieModel> movies;
+        movies = dBHandler.findMovieByTitle("The");
+        if(movies != null){
+            for (MovieModel movie: movies) {
+                Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString());
+            }
+        }
+
+    }
+
 }

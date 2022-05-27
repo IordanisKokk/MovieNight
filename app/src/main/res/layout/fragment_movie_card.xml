@@ -85,7 +85,9 @@
                     android:layout_height="222dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/doctor_strange" />
+                    app:srcCompat="@drawable/doctor_strange"
+                    />
+
 
                 <TextView
                     android:id="@+id/title"
