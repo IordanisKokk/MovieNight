@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -12,6 +13,8 @@ import com.example.watch_together.models.MovieModel;
 import java.util.ArrayList;
 
 public class DbHandler extends SQLiteOpenHelper {
+
+    private ArrayList<MovieModel> movies = new ArrayList<>();
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "movieNightDB.db";
@@ -76,45 +79,75 @@ public class DbHandler extends SQLiteOpenHelper {
     }
 
     public ArrayList<MovieModel> findMovieByTitle(String movieTitle) {
-        String movieId = "";
+
         String query = "SELECT * FROM " + TABLE_MOVIES + " WHERE " +
                 COLUMN_MOVIE_TITLE + " LIKE '%" + movieTitle + "%'";
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String[] columns = new String[]{COLUMN_MOVIE_ID, COLUMN_MOVIE_TITLE, COLUMN_MOVIE_RELEASE_DATE, COLUMN_MOVIE_RATING, COLUMN_MOVIE_OVERVIEW, COLUMN_MOVIE_POSTER_PATH};
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+
+
+        queryDataBase(cursor, sqLiteDatabase, query);
+
+            sqLiteDatabase.close();
+            return movies;
+        }
+
+    public ArrayList<MovieModel> findMovieByTitleAndGenre(String movieTitle, String movieGenres) {
+        Log.d("de", "OK genre");
+        String movieId = "";
+//        String query = "SELECT * FROM " + TABLE_MOVIES + " JOIN "+ TABLE_MOVIE_GENRES + " WHERE " +
+//                COLUMN_MOVIE_TITLE + " LIKE '%" + movieTitle + "%' AND "+ TABLE_MOVIES+"." + COLUMN_MOVIE_ID + " = "+ TABLE_MOVIE_GENRES+"." + COLUMN_GENRE_MOVIE_ID +
+//                " AND " + TABLE_MOVIE_GENRES+"."+ COLUMN_GENRE + " IN (" + movieGenres + ")";
+        String query = "SELECT * FROM " + TABLE_MOVIES + " JOIN "+ TABLE_MOVIE_GENRES + " WHERE " +
+                COLUMN_MOVIE_TITLE + " LIKE '%" + movieTitle + "%' AND "+ TABLE_MOVIES+"." + COLUMN_MOVIE_ID + " = "+ TABLE_MOVIE_GENRES+"." + COLUMN_GENRE_MOVIE_ID +
+                " AND " + COLUMN_GENRE + " IN (" + movieGenres + ")" +
+                " GROUP BY " + COLUMN_MOVIE_TITLE;
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String[] columns = new String[]{COLUMN_MOVIE_ID, COLUMN_MOVIE_TITLE, COLUMN_MOVIE_RELEASE_DATE, COLUMN_MOVIE_RATING, COLUMN_MOVIE_OVERVIEW, COLUMN_MOVIE_POSTER_PATH};
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         MovieModel movie;
-        ArrayList<MovieModel> movies = new ArrayList<>();
-        String genreQuery;
 
-        if (cursor.getCount() <= 1) {
-            movie = new MovieModel();
-            if (cursor.moveToFirst()) {
-                cursor.moveToFirst();
-                movie.setMovieID(Integer.parseInt(cursor.getString(0)));
-                movieId = cursor.getString(0);
-                movie.setTitle(cursor.getString(1));
-                movie.setReleaseDate(cursor.getString(2));
-                movie.setVoteAverage(Float.parseFloat(cursor.getString(3)));
-                movie.setMovieOverview(cursor.getString(4));
-                movie.setPosterPath(cursor.getString(5));
-            } else {
-                movie = null;
-            }
+        queryDataBase(cursor, sqLiteDatabase, query);
 
-            genreQuery = new StringBuilder().append("SELECT * FROM ").append(TABLE_MOVIE_GENRES).append(" WHERE ").append(COLUMN_GENRE_MOVIE_ID).append(" = ").append(movieId).toString();
+        sqLiteDatabase.close();
+        return movies;
+    }
 
-            cursor = sqLiteDatabase.rawQuery(genreQuery, null);
-            if (cursor.moveToFirst()) {
-                cursor.moveToFirst();
-                movie.addGenres(cursor.getString(1));
-                int i = 1;
-                while (cursor.move(i++)) {
-                    movie.addGenres(cursor.getString(1));
+        public void queryDataBase(Cursor cursor, SQLiteDatabase sqLiteDatabase, String query){
+            String movieId = "";
+            MovieModel movie;
+            String genreQuery;
+
+            if (cursor.getCount() <= 1) {
+                movie = new MovieModel();
+                if (cursor.moveToFirst()) {
+                    cursor.moveToFirst();
+                    movie.setMovieID(Integer.parseInt(cursor.getString(0)));
+                    movieId = cursor.getString(0);
+                    movie.setTitle(cursor.getString(1));
+                    movie.setReleaseDate(cursor.getString(2));
+                    movie.setVoteAverage(Float.parseFloat(cursor.getString(3)));
+                    movie.setMovieOverview(cursor.getString(4));
+                    movie.setPosterPath(cursor.getString(5));
+                } else {
+                    movie = null;
                 }
 
-                movies.add(movie);
-            }
-        } else {
+                genreQuery = new StringBuilder().append("SELECT * FROM ").append(TABLE_MOVIE_GENRES).append(" WHERE ").append(COLUMN_GENRE_MOVIE_ID).append(" = ").append(movieId).toString();
+
+                cursor = sqLiteDatabase.rawQuery(genreQuery, null);
+                if (cursor.moveToFirst()) {
+                    cursor.moveToFirst();
+                    movie.addGenres(cursor.getString(1));
+                    int i = 1;
+                    while (cursor.move(i++)) {
+                        movie.addGenres(cursor.getString(1));
+                    }
+
+                    movies.add(movie);
+                }
+            } else {
                 int totalRows = cursor.getCount();
                 for (int i = 0; i < totalRows; i++) {
                     movie = new MovieModel();
@@ -144,14 +177,16 @@ public class DbHandler extends SQLiteOpenHelper {
                         }
                     }
                     movies.add(new MovieModel(movie.getMovieID(),movie.getTitle(),movie.getReleaseDate(),movie.getVoteAverage(),movie.getMovieOverview(),movie.getPosterPath(),movie.getGenres()));
+//                    Log.d("de", "Added movie in Movies ArrayList" + movies.get(movies.size()-1).getTitle()+ " ---");
                 }
             }
-
-            sqLiteDatabase.close();
-            return movies;
         }
 
+
+
     }
+
+
 
     /*
     SQL CODE TO CREATE TABLE movies

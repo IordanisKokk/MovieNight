@@ -90,12 +90,27 @@ public class searchFragment extends Fragment {
                     }
                 }
 
-                Log.d("de", "Title: " + searchInput);
-                Log.d("de", "Genres: ");
+                StringBuilder genresStringBuilder = new StringBuilder();
+//                Log.d("de", "Title: " + searchInput);
+//                Log.d("de", "Genres: ");
                 for (String chip : selectedChipTexts) {
-                    Log.d("de", "-" + chip);
+                    genresStringBuilder.append(chip + ",");
+//                    Log.d("de", "-" + chip);
                 }
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new searchResultFragment()).commit();
+
+//                Log.d("de", searchInput + ": ");
+//                Log.d("de", genresStringBuilder.toString());
+
+                searchResultFragment searchResultFragment = new searchResultFragment();
+                Bundle args = new Bundle();
+
+                args.putString("title", searchInput);
+                args.putString("genres", genresStringBuilder.toString());
+
+                searchResultFragment.setArguments(args);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, searchResultFragment).commit();
+
             }
         });
 

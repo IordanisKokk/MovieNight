@@ -1,5 +1,6 @@
 package com.example.watch_together.ui;
 
+import android.graphics.Movie;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,12 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.watch_together.R;
 import com.example.watch_together.Utills.DbHandler;
+import com.example.watch_together.Utills.SearchUtill;
 import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +34,9 @@ public class searchResultFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String titleSearch;
-    private String mParam2;
+    private String genres;
+
+    TextView searchTitle;
 
     public searchResultFragment() {
         // Required empty public constructor
@@ -57,8 +64,8 @@ public class searchResultFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            titleSearch = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            titleSearch = getArguments().getString("title");
+            genres = getArguments().getString("genres");
         }
     }
 
@@ -68,17 +75,24 @@ public class searchResultFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_result, container, false);
 
-
+        Log.d("de", "Searching for title: " + titleSearch + " and genres:" + genres);
+        searchTitle = (TextView) view.findViewById(R.id.searchTitle);
+        searchTitle.setText(titleSearch.toString());
         findMovie();
 
         return view;
     }
 
     public void findMovie(){
-        //TODO
-        DbHandler dBHandler = new DbHandler(getActivity(), null, null, 1);
+
+        String[] genresSplit = genres.split(",");
+        ArrayList<String> genresList = new ArrayList<>(Arrays.asList(genresSplit));
+
+        for (String genre : genresList) {
+            Log.d("de", genre);
+        }
         ArrayList<MovieModel> movies;
-        movies = dBHandler.findMovieByTitle("The");
+        movies = new SearchUtill(titleSearch, genresList).searchForMovies(getActivity());
         if(movies != null){
             for (MovieModel movie: movies) {
                 Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString());
