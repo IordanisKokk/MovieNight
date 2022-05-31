@@ -7,14 +7,22 @@ import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
 
-public class SearchUtill {
+
+/**
+ * This is a utility class that handles the input that the user puts in the searchFragment.
+ * This class contains an object of the DbHandler class, so that the database can be accessed.
+ * Depending on the input from the user, this class calls the appropriate method in the DbHandler
+ * class to execute the appropriate query.
+ *
+ */
+public class SearchUtil {
 
     private String titleSearch;
     private ArrayList<String> genreSearch;
     DbHandler databaseHandler;
     ArrayList<MovieModel> movies;
 
-    public SearchUtill(String titleSearch, ArrayList<String> genreSearch) {
+    public SearchUtil(String titleSearch, ArrayList<String> genreSearch) {
         this.titleSearch = titleSearch;
         this.genreSearch = genreSearch;
     }
@@ -35,7 +43,6 @@ public class SearchUtill {
         }else if(genreSearch.get(0).equals("")){
             movies = databaseHandler.findMovieByTitle(titleSearch);
         }else{
-            //TODO
             StringBuilder genresSearchStringBuilder = new StringBuilder();
             for (String genre : genreSearch) {
                 genresSearchStringBuilder.append("'" + genre.toString() + "',");

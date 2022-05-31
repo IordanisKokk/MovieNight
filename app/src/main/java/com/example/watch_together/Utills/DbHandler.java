@@ -12,6 +12,17 @@ import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * This is a class that handles the creation and queries to the database.
+ * The database is created in the onCreate method.
+ * A method called onCreateInsertValues is called by the onCreate method to insert entries on our db
+ * tables.
+ *
+ * Finally, there are  TWO methods that handle queries to the database, one for queries only using a movie_title,
+ * and one with movie_genres.
+ *
+ */
 public class DbHandler extends SQLiteOpenHelper {
 
     private ArrayList<MovieModel> movies = new ArrayList<>();

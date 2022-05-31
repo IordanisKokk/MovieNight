@@ -1,6 +1,5 @@
 package com.example.watch_together.ui;
 
-import android.graphics.Movie;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,11 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.watch_together.R;
-import com.example.watch_together.Utills.DbHandler;
-import com.example.watch_together.Utills.SearchUtill;
+import com.example.watch_together.Utills.SearchUtil;
 import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
@@ -24,6 +21,9 @@ import java.util.Arrays;
  * A simple {@link Fragment} subclass.
  * Use the {@link searchResultFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * This fragment contains the results for the movie search of the user.
+ *
  */
 public class searchResultFragment extends Fragment {
 
@@ -92,7 +92,7 @@ public class searchResultFragment extends Fragment {
             Log.d("de", genre);
         }
         ArrayList<MovieModel> movies;
-        movies = new SearchUtill(titleSearch, genresList).searchForMovies(getActivity());
+        movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity());
         if(movies != null){
             for (MovieModel movie: movies) {
                 Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString());

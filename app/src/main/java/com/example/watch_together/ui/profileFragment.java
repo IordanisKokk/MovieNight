@@ -1,5 +1,6 @@
 package com.example.watch_together.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -84,7 +85,10 @@ public class profileFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "LOG", Toast.LENGTH_SHORT).show();
+                firebaseAuth.signOut();
+
+                ((MainActivity)getActivity()).makeLoginRegistrationActivityIntent();
+//                Toast.makeText(view.getContext(), "LOG", Toast.LENGTH_SHORT).show();
             }
         });
 
