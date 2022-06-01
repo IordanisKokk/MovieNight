@@ -76,7 +76,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         public void bindMovie(MovieModel movie) {
             poster.setImageDrawable(Drawable.createFromPath(movie.getPosterPath()));
-            Log.d("de", movie.getPosterPath());
             title.setText(movie.getTitle());
             year.setText(movie.getReleaseDate());
             rating.setText(Float.toString(movie.getVoteAverage()));
