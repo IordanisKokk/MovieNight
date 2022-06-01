@@ -1,8 +1,10 @@
 package com.example.watch_together.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,11 +87,31 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
 
         public void addButtonListeners(int position) {
+            infoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("de", "movie at " + position + " shows more info.");
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse("http://www.imdb.com"));
+                    context.startActivity(intent);
+                }
+            });
+
+            favouriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("de", "movie at " + position + " added to favorites.");
+                }
+            });
+
             dismissButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     movies.remove(position);
                     notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, movies.size());
                     Log.d("de", "movie at " + position + " dismissed.");
                 }
             });
