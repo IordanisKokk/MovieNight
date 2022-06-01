@@ -39,6 +39,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         holder.bindMovie(movies.get(position));
+        holder.addButtonListeners(position);
     }
 
     @Override
@@ -81,6 +82,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             rating.setText(Float.toString(movie.getVoteAverage()));
             director.setText(movie.getTitle());
             plot.setText(movie.getMovieOverview());
+        }
+
+        public void addButtonListeners(int position) {
+            dismissButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    movies.remove(position);
+                    notifyItemRemoved(position);
+                    Log.d("de", "movie at " + position + " dismissed.");
+                }
+            });
         }
     }
 }
