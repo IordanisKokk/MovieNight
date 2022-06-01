@@ -1,14 +1,26 @@
 package com.example.watch_together.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.watch_together.Adapters.MovieListAdapter;
 import com.example.watch_together.R;
+import com.example.watch_together.Utills.SearchUtil;
+import com.example.watch_together.models.MovieModel;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +37,9 @@ public class homeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    RecyclerView recyclerView;
+    MovieListAdapter adapter;
 
     public homeFragment() {
         // Required empty public constructor
@@ -61,6 +76,25 @@ public class homeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.favouriteMovieCards);
+        recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        findFavourites(container.getContext());
+
+        return view;
+    }
+
+    public void findFavourites(Context context){
+        ArrayList<MovieModel> movies;
+        movies = new SearchUtil("", new ArrayList<String>(Collections.singletonList(""))).searchForMovies(getActivity());
+        if(movies != null){
+            adapter = new MovieListAdapter(context, movies);
+            recyclerView.setAdapter(adapter);
+            for (MovieModel movie: movies) {
+                Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString());
+            }
+        }
+
     }
 }
