@@ -3,6 +3,7 @@ package com.example.watch_together.Adapters;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         public void bindMovie(MovieModel movie) {
             poster.setImageDrawable(Drawable.createFromPath(movie.getPosterPath()));
+            Log.d("de", movie.getPosterPath());
             title.setText(movie.getTitle());
             year.setText(movie.getReleaseDate());
             rating.setText(Float.toString(movie.getVoteAverage()));
