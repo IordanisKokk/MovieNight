@@ -35,6 +35,6 @@
         android:id="@+id/movieCards"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toBottomOf="@id/searchTitleLabel"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchTitleLabel"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
