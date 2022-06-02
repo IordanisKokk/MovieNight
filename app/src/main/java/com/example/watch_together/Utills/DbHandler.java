@@ -45,6 +45,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
     public DbHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+        context.deleteDatabase(DATABASE_NAME);
     }
 
 
