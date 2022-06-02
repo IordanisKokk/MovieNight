@@ -80,10 +80,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         public void bindMovie(MovieModel movie) {
             poster.setImageDrawable(Drawable.createFromPath(movie.getPosterPath()));
             title.setText(movie.getTitle());
-            year.setText(movie.getReleaseDate());
-            rating.setText(Float.toString(movie.getVoteAverage()));
-            director.setText(movie.getTitle());
-            plot.setText(movie.getMovieOverview());
+            year.setText(context.getResources().getString(R.string.release_date, movie.getReleaseDate()));
+            rating.setText(context.getResources().getString(R.string.rating, movie.getVoteAverage()));
+            director.setText(context.getResources().getString(R.string.director, movie.getTitle()));
+            plot.setText(context.getResources().getString(R.string.plot_summary, movie.getMovieOverview()));
         }
 
         public void addButtonListeners(int position) {
