@@ -81,7 +81,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             poster.setImageDrawable(Drawable.createFromPath(movie.getPosterPath()));
             title.setText(movie.getTitle());
             year.setText(context.getResources().getString(R.string.release_date, movie.getReleaseDate()));
-            rating.setText(context.getResources().getString(R.string.rating, movie.getVoteAverage()));
+            rating.setText(context.getResources().getString(R.string.rating, String.valueOf(movie.getVoteAverage())));
             director.setText(context.getResources().getString(R.string.director, movie.getTitle()));
             plot.setText(context.getResources().getString(R.string.plot_summary, movie.getMovieOverview()));
         }
