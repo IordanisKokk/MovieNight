@@ -52,7 +52,6 @@ public class DbHandler extends SQLiteOpenHelper {
 
     public DbHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
-        context.deleteDatabase(DATABASE_NAME);
     }
 
 
@@ -105,6 +104,7 @@ public class DbHandler extends SQLiteOpenHelper {
     public ArrayList<MovieModel> findFavouritesByUserID(String userID) {
         String query = "SELECT " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_TITLE + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_RELEASE_DATE + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_RATING + ", " +TABLE_MOVIES + "." + COLUMN_MOVIE_OVERVIEW + ", " +TABLE_MOVIES + "." + COLUMN_MOVIE_POSTER_PATH + " FROM " + TABLE_FAVOURITES + ", " + TABLE_MOVIES + " WHERE " +
                 TABLE_FAVOURITES + "." + COLUMN_USER_ID + " LIKE %" + userID + "% AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + " LIKE %" + TABLE_FAVOURITES + "." + COLUMN_MOVIE_ID + "%;";
+        Log.d("de", query);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         movies = new ArrayList<>();
@@ -127,6 +127,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
     public void favouriteMovieByID(String userID, String movieID) {
         String query = "INSERT INTO " + TABLE_FAVOURITES + "(" + COLUMN_USER_ID + ", " + COLUMN_MOVIE_ID + ")" + " VALUES (" + userID + ", " + movieID + ");";
+        Log.d("de", query);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         sqLiteDatabase.execSQL(query);
@@ -135,6 +136,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
     public void unfavouriteMovieByID(String userID, String movieID) {
         String query = "DELETE FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + " LIKE %" + userID + "% AND " + COLUMN_MOVIE_ID + " LIKE %" + movieID + "%;";
+        Log.d("de", query);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         sqLiteDatabase.execSQL(query);
@@ -143,6 +145,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
     public void resetFavouritesByUserID(String userID) {
         String query = "DELETE FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + " LIKE %" + userID + "%;";
+        Log.d("de", query);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         sqLiteDatabase.execSQL(query);
@@ -159,6 +162,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
     public void resetDismissedByUserID(String userID) {
         String query = "DELETE FROM " + TABLE_DISMISSED + " WHERE " + COLUMN_USER_ID + " LIKE %" + userID + "%;";
+        Log.d("de", query);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         sqLiteDatabase.execSQL(query);
