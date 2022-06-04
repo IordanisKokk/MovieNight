@@ -11,15 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.watch_together.Adapters.MovieListAdapter;
 import com.example.watch_together.R;
-import com.example.watch_together.Utills.SearchUtil;
+import com.example.watch_together.Utills.DisFavUtil;
+import com.example.watch_together.Utills.WatchTogether;
 import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -87,9 +86,10 @@ public class homeFragment extends Fragment {
 
     public void findFavourites(Context context){
         ArrayList<MovieModel> movies;
-        movies = new SearchUtil("", new ArrayList<String>(Collections.singletonList(""))).searchForMovies(getActivity());
+        String userID = ((WatchTogether) getActivity().getApplication()).getUserID();
+        movies = new DisFavUtil().getFavorites(context, userID);
         if(movies != null){
-            adapter = new MovieListAdapter(context, movies);
+            adapter = new MovieListAdapter(context, movies, false);
             recyclerView.setAdapter(adapter);
             for (MovieModel movie: movies) {
                 Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString() + " Poster: " + movie.getPosterPath());

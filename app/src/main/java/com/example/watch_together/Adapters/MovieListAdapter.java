@@ -17,17 +17,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.watch_together.R;
+import com.example.watch_together.Utills.DisFavUtil;
+import com.example.watch_together.Utills.WatchTogether;
 import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
     private ArrayList<MovieModel> movies = new ArrayList<>();
     private Context context;
+    boolean isSearch;
+    private String userID;
 
-    public MovieListAdapter(Context context, ArrayList<MovieModel> movies) {
+    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean isSearch) {
         this.context = context;
         this.movies = movies;
+        this.isSearch = isSearch;
+        userID = "";
+    }
+
+    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean isSearch, String userID) {
+        this(context, movies, isSearch);
+        this.userID = userID;
     }
 
     @NonNull
@@ -52,6 +64,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     public class MovieViewHolder extends RecyclerView.ViewHolder {
         private Context context;
 
+        private String movieID;
         private ImageView poster;
         private TextView title;
         private TextView year;
@@ -78,12 +91,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
 
         public void bindMovie(MovieModel movie) {
+            movieID = movie.getMovieID();
             poster.setImageDrawable(Drawable.createFromPath(movie.getPosterPath()));
             title.setText(movie.getTitle());
             year.setText(context.getResources().getString(R.string.release_date, movie.getReleaseDate()));
             rating.setText(context.getResources().getString(R.string.rating, String.valueOf(movie.getVoteAverage())));
             director.setText(context.getResources().getString(R.string.director, movie.getTitle()));
             plot.setText(context.getResources().getString(R.string.plot_summary, movie.getMovieOverview()));
+            if (!isSearch) {
+                favouriteButton.setText("Unfavourite");
+            }
         }
 
         public void addButtonListeners(int position) {
@@ -102,6 +119,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             favouriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!Objects.equals(userID, "")) {
+                        if (isSearch) {
+                            new DisFavUtil().favouriteMovie(context, userID, movieID);
+                        }
+                        else {
+                            new DisFavUtil().unfavouriteMovie(context, userID, movieID);
+                            movies.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, movies.size());
+                        }
+                    }
                     Log.d("de", "movie at " + position + " added to favorites.");
                 }
             });
@@ -109,9 +137,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             dismissButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    movies.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, movies.size());
+                    if (!Objects.equals(userID, "")) {
+                        new DisFavUtil().dismissMovie(context, userID, movieID);
+                        movies.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, movies.size());
+                    }
                     Log.d("de", "movie at " + position + " dismissed.");
                 }
             });

@@ -102,7 +102,7 @@ public class searchResultFragment extends Fragment {
         ArrayList<MovieModel> movies;
         movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity());
         if(movies != null){
-            adapter = new MovieListAdapter(context, movies);
+            adapter = new MovieListAdapter(context, movies, true);
             recyclerView.setAdapter(adapter);
             for (MovieModel movie: movies) {
                 Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString() + " Poster: " + movie.getPosterPath());

@@ -112,7 +112,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
         while (cursor.moveToNext()) {
             MovieModel movie = new MovieModel();
-            movie.setMovieID(Integer.parseInt(cursor.getString(0)));
+            movie.setMovieID(cursor.getString(0));
             movie.setTitle(cursor.getString(1));
             movie.setReleaseDate(cursor.getString(2));
             movie.setVoteAverage(Float.parseFloat(cursor.getString(3)));
@@ -211,7 +211,7 @@ public class DbHandler extends SQLiteOpenHelper {
                 movie = new MovieModel();
                 if (cursor.moveToFirst()) {
                     cursor.moveToFirst();
-                    movie.setMovieID(Integer.parseInt(cursor.getString(0)));
+                    movie.setMovieID(cursor.getString(0));
                     movieId = cursor.getString(0);
                     movie.setTitle(cursor.getString(1));
                     movie.setReleaseDate(cursor.getString(2));
@@ -242,7 +242,7 @@ public class DbHandler extends SQLiteOpenHelper {
                     cursor = sqLiteDatabase.rawQuery(query, null);
                     if (cursor.moveToFirst()) {
                         cursor.move(i);
-                        movie.setMovieID(Integer.parseInt(cursor.getString(0)));
+                        movie.setMovieID(cursor.getString(0));
                         movieId = cursor.getString(0);
                         movie.setTitle(cursor.getString(1));
                         movie.setReleaseDate(cursor.getString(2));
