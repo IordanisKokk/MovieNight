@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.watch_together.Adapters.MovieListAdapter;
 import com.example.watch_together.R;
 import com.example.watch_together.Utills.SearchUtil;
+import com.example.watch_together.Utills.WatchTogether;
 import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
@@ -102,7 +103,8 @@ public class searchResultFragment extends Fragment {
         ArrayList<MovieModel> movies;
         movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity());
         if(movies != null){
-            adapter = new MovieListAdapter(context, movies, true);
+            String userID = ((WatchTogether) getActivity().getApplication()).getUserID();
+            adapter = new MovieListAdapter(context, movies, true, userID);
             recyclerView.setAdapter(adapter);
             for (MovieModel movie: movies) {
                 Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString() + " Poster: " + movie.getPosterPath());
