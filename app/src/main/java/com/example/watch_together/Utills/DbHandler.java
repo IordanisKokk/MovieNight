@@ -31,7 +31,6 @@ public class DbHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "movieNightDB.db";
 
     public static final String TABLE_MOVIES = "movies";
-
     public static final String COLUMN_MOVIE_ID = "movie_id";
     public static final String COLUMN_MOVIE_TITLE = "movie_title";
     public static final String COLUMN_MOVIE_RELEASE_DATE = "movie_release_date";
@@ -42,6 +41,14 @@ public class DbHandler extends SQLiteOpenHelper {
     public static final String TABLE_MOVIE_GENRES = "movie_genres";
     public static final String COLUMN_GENRE_MOVIE_ID = "movie_id";
     public static final String COLUMN_GENRE = "genre";
+
+    public static final String TABLE_FAVOURITES = "favourites";
+    public static final String COLUMN_FAVOURITE_ID = "favourite_id";
+    public static final String COLUMN_USER_ID = "user_id";
+
+    public static final String TABLE_DISMISSED = "dismissed";
+    public static final String COLUMN_DISMISSED_ID = "dismissed_id";
+
 
     public DbHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -55,8 +62,13 @@ public class DbHandler extends SQLiteOpenHelper {
 
 //        String CREATE_MOVIE_GENRES_TABLE = new StringBuilder().append("CREATE TABLE ").append(TABLE_MOVIE_GENRES).append("(").append(COLUMN_MOVIE_ID).append(" INT NOT NULL,").append(COLUMN_GENRE).append(" VARCHAR NOT NULL,").append("PRIMARY KEY (").append(COLUMN_MOVIE_ID).append(", ").append(COLUMN_GENRE).append(")").append("FOREIGN KEY (").append(COLUMN_MOVIE_ID).append(" REFERENCES ").append(TABLE_MOVIES).append("(").append(COLUMN_MOVIE_ID).append(")").append(")").toString();
         String CREATE_MOVIE_GENRES_TABLE = "CREATE TABLE movie_genres (movie_id INTEGER NOT NULL, genre VARCHAR NOT NULL,PRIMARY KEY (movie_id, genre), FOREIGN KEY (movie_id) REFERENCES movie(movie_id));";
+        String CREATE_FAVOURITES_TABLE = new StringBuilder().append("CREATE TABLE ").append(TABLE_FAVOURITES).append("(").append(COLUMN_FAVOURITE_ID).append(" INT AUTO_INCREMENT, ").append(COLUMN_USER_ID).append(" VARCHAR(20) NOT NULL,").append(COLUMN_MOVIE_ID).append(" VARCHAR NOT NULL, ").append("FOREIGN KEY(").append(COLUMN_MOVIE_ID).append(") REFERENCES ").append(TABLE_MOVIES).append(" (").append(COLUMN_MOVIE_ID).append(") ON DELETE CASCADE, ").append("PRIMARY KEY (").append(COLUMN_FAVOURITE_ID).append(")").append(");").toString();
+        String CREATE_DISMISSED_TABLE = new StringBuilder().append("CREATE TABLE ").append(TABLE_DISMISSED).append("(").append(COLUMN_DISMISSED_ID).append(" INT AUTO_INCREMENT, ").append(COLUMN_USER_ID).append(" VARCHAR(20) NOT NULL,").append(COLUMN_MOVIE_ID).append(" VARCHAR NOT NULL, ").append("FOREIGN KEY(").append(COLUMN_MOVIE_ID).append(") REFERENCES ").append(TABLE_MOVIES).append(" (").append(COLUMN_MOVIE_ID).append(") ON DELETE CASCADE, ").append("PRIMARY KEY (").append(COLUMN_DISMISSED_ID).append(")").append(");").toString();
+
         sqLiteDatabase.execSQL(CREATE_MOVIES_TABLE);
         sqLiteDatabase.execSQL(CREATE_MOVIE_GENRES_TABLE);
+        sqLiteDatabase.execSQL(CREATE_FAVOURITES_TABLE);
+        sqLiteDatabase.execSQL(CREATE_DISMISSED_TABLE);
 
         onCreateInsertValues(sqLiteDatabase);
     }
@@ -89,6 +101,70 @@ public class DbHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(INSERT_INTO_MOVIE_GENRES);
 
     }
+
+    public ArrayList<MovieModel> findFavouritesByUserID(String userID) {
+        String query = "SELECT " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_TITLE + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_RELEASE_DATE + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_RATING + ", " +TABLE_MOVIES + "." + COLUMN_MOVIE_OVERVIEW + ", " +TABLE_MOVIES + "." + COLUMN_MOVIE_POSTER_PATH + " FROM " + TABLE_FAVOURITES + ", " + TABLE_MOVIES + " WHERE " +
+                TABLE_FAVOURITES + "." + COLUMN_USER_ID + " LIKE %" + userID + "% AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + " LIKE %" + TABLE_FAVOURITES + "." + COLUMN_MOVIE_ID + "%;";
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        movies = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+
+        while (cursor.moveToNext()) {
+            MovieModel movie = new MovieModel();
+            movie.setMovieID(Integer.parseInt(cursor.getString(0)));
+            movie.setTitle(cursor.getString(1));
+            movie.setReleaseDate(cursor.getString(2));
+            movie.setVoteAverage(Float.parseFloat(cursor.getString(3)));
+            movie.setMovieOverview(cursor.getString(4));
+            movie.setPosterPath(cursor.getString(5));
+            movies.add(movie);
+        }
+
+        sqLiteDatabase.close();
+        return movies;
+    }
+
+    public void favouriteMovieByID(String userID, String movieID) {
+        String query = "INSERT INTO " + TABLE_FAVOURITES + "(" + COLUMN_USER_ID + ", " + COLUMN_MOVIE_ID + ")" + " VALUES (" + userID + ", " + movieID + ");";
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
+    public void unfavouriteMovieByID(String userID, String movieID) {
+        String query = "DELETE FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + " LIKE %" + userID + "% AND " + COLUMN_MOVIE_ID + " LIKE %" + movieID + "%;";
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
+    public void resetFavouritesByUserID(String userID) {
+        String query = "DELETE FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + " LIKE %" + userID + "%;";
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
+    public void dismissMovieByID(String userID, String movieID) {
+        String query = "INSERT INTO " + TABLE_DISMISSED + "(" + COLUMN_USER_ID + ", " + COLUMN_MOVIE_ID + ")" + " VALUES (" + userID + ", " + movieID + ");";
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
+    public void resetDismissedByUserID(String userID) {
+        String query = "DELETE FROM " + TABLE_DISMISSED + " WHERE " + COLUMN_USER_ID + " LIKE %" + userID + "%;";
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
 
     public ArrayList<MovieModel> findMovieByTitle(String movieTitle) {
 
