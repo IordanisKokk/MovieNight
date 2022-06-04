@@ -103,7 +103,8 @@ public class DbHandler extends SQLiteOpenHelper {
 
     public ArrayList<MovieModel> findFavouritesByUserID(String userID) {
         String query = "SELECT " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_TITLE + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_RELEASE_DATE + ", " + TABLE_MOVIES + "." + COLUMN_MOVIE_RATING + ", " +TABLE_MOVIES + "." + COLUMN_MOVIE_OVERVIEW + ", " +TABLE_MOVIES + "." + COLUMN_MOVIE_POSTER_PATH + " FROM " + TABLE_FAVOURITES + ", " + TABLE_MOVIES + " WHERE " +
-                TABLE_FAVOURITES + "." + COLUMN_USER_ID + "='" + userID + "' AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + "=" + TABLE_FAVOURITES + "." + COLUMN_MOVIE_ID + ";";
+                TABLE_FAVOURITES + "." + COLUMN_USER_ID + "='" + userID + "' AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + "=" + TABLE_FAVOURITES + "." + COLUMN_MOVIE_ID + " AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + " NOT IN (SELECT " +
+                COLUMN_MOVIE_ID + " FROM " + TABLE_DISMISSED + " WHERE " + COLUMN_USER_ID + "='" + userID + "');";
         Log.d("de", query);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
