@@ -171,10 +171,11 @@ public class DbHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<MovieModel> findMovieByTitle(String movieTitle) {
+    public ArrayList<MovieModel> findMovieByTitle(String movieTitle, String userID) {
 
         String query = "SELECT * FROM " + TABLE_MOVIES + " WHERE " +
-                COLUMN_MOVIE_TITLE + " LIKE '%" + movieTitle + "%'";
+                COLUMN_MOVIE_TITLE + " LIKE '%" + movieTitle + "%' AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + " NOT IN (SELECT " +
+        COLUMN_MOVIE_ID + " FROM " + TABLE_DISMISSED + " WHERE " + COLUMN_USER_ID + "='" + userID + "');";
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String[] columns = new String[]{COLUMN_MOVIE_ID, COLUMN_MOVIE_TITLE, COLUMN_MOVIE_RELEASE_DATE, COLUMN_MOVIE_RATING, COLUMN_MOVIE_OVERVIEW, COLUMN_MOVIE_POSTER_PATH};
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
@@ -186,7 +187,7 @@ public class DbHandler extends SQLiteOpenHelper {
             return movies;
         }
 
-    public ArrayList<MovieModel> findMovieByTitleAndGenre(String movieTitle, String movieGenres) {
+    public ArrayList<MovieModel> findMovieByTitleAndGenre(String movieTitle, String movieGenres, String userID) {
         Log.d("de", "OK genre");
         String movieId = "";
 //        String query = "SELECT * FROM " + TABLE_MOVIES + " JOIN "+ TABLE_MOVIE_GENRES + " WHERE " +
@@ -194,8 +195,8 @@ public class DbHandler extends SQLiteOpenHelper {
 //                " AND " + TABLE_MOVIE_GENRES+"."+ COLUMN_GENRE + " IN (" + movieGenres + ")";
         String query = "SELECT * FROM " + TABLE_MOVIES + " JOIN "+ TABLE_MOVIE_GENRES + " WHERE " +
                 COLUMN_MOVIE_TITLE + " LIKE '%" + movieTitle + "%' AND "+ TABLE_MOVIES+"." + COLUMN_MOVIE_ID + " = "+ TABLE_MOVIE_GENRES+"." + COLUMN_GENRE_MOVIE_ID +
-                " AND " + COLUMN_GENRE + " IN (" + movieGenres + ")" +
-                " GROUP BY " + COLUMN_MOVIE_TITLE;
+                " AND " + COLUMN_GENRE + " IN (" + movieGenres + ") AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + " NOT IN (SELECT " +
+                COLUMN_MOVIE_ID + " FROM " + TABLE_DISMISSED + " WHERE " + COLUMN_USER_ID + "='" + userID + "') GROUP BY " + COLUMN_MOVIE_TITLE;
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String[] columns = new String[]{COLUMN_MOVIE_ID, COLUMN_MOVIE_TITLE, COLUMN_MOVIE_RELEASE_DATE, COLUMN_MOVIE_RATING, COLUMN_MOVIE_OVERVIEW, COLUMN_MOVIE_POSTER_PATH};
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);

@@ -101,9 +101,9 @@ public class searchResultFragment extends Fragment {
             Log.d("de", genre);
         }
         ArrayList<MovieModel> movies;
-        movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity());
+        String userID = ((WatchTogether) getActivity().getApplication()).getUserID();
+        movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity(), userID);
         if(movies != null){
-            String userID = ((WatchTogether) getActivity().getApplication()).getUserID();
             adapter = new MovieListAdapter(context, movies, true, userID);
             recyclerView.setAdapter(adapter);
             for (MovieModel movie: movies) {
