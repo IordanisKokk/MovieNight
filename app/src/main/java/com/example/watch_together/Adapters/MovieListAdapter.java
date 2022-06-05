@@ -32,16 +32,18 @@ import java.util.Objects;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
     private ArrayList<MovieModel> movies = new ArrayList<>();
     private Context context;
+    private boolean favouriteRemoves;
     private String userID;
 
-    public MovieListAdapter(Context context, ArrayList<MovieModel> movies) {
+    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean favouriteRemoves) {
         this.context = context;
         this.movies = movies;
-        userID = "";
+        this.favouriteRemoves = favouriteRemoves;
+        this.userID = "";
     }
 
-    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, String userID) {
-        this(context, movies);
+    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean favouriteRemoves, String userID) {
+        this(context, movies, favouriteRemoves);
         this.userID = userID;
     }
 
@@ -172,14 +174,22 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 @Override
                 public void onClick(View view) {
                     if (!Objects.equals(userID, "")) {
-                        if (new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
+                        if (!new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
                             new DisFavUtil().favouriteMovie(context, userID, movieID);
+                            if (!favouriteRemoves) {
+                                favouriteButton.setText("Unfavourite");
+                            }
                         }
                         else {
                             new DisFavUtil().unfavouriteMovie(context, userID, movieID);
-                            movies.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, movies.size());
+                            if (favouriteRemoves) {
+                                movies.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, movies.size());
+                            }
+                            else {
+                                favouriteButton.setText("Favourite");
+                            }
                         }
                     }
                     Log.d("de", "movie at " + position + " added to favorites.");

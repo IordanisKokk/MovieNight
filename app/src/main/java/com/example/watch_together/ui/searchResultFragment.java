@@ -104,7 +104,7 @@ public class searchResultFragment extends Fragment {
         String userID = ((WatchTogether) getActivity().getApplication()).getUserID();
         movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity(), userID);
         if(movies != null){
-            adapter = new MovieListAdapter(context, movies, userID);
+            adapter = new MovieListAdapter(context, movies, false, userID);
             recyclerView.setAdapter(adapter);
             for (MovieModel movie: movies) {
                 Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString() + " Poster: " + movie.getPosterPath());

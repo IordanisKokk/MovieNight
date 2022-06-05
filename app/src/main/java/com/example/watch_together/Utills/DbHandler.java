@@ -145,14 +145,15 @@ public class DbHandler extends SQLiteOpenHelper {
     }
 
     public boolean isFavouriteMovieByID(String userID, String movieID) {
-        String query = "SELECT FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + "='" + userID + "' AND " + COLUMN_MOVIE_ID + "='" + movieID + "';";
+        String query = "SELECT * FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + "='" + userID + "' AND " + COLUMN_MOVIE_ID + "='" + movieID + "';";
         Log.d("de", query);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        sqLiteDatabase.close();
         Log.d("de", "Found " + cursor.getCount() + "favourite movie(s).");
-        return cursor.getCount() > 0;
+        boolean isFavourite = cursor.getCount() > 0;
+        sqLiteDatabase.close();
+        return isFavourite;
     }
 
     public void resetFavouritesByUserID(String userID) {
