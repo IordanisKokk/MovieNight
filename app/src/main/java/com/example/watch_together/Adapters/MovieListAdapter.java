@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.watch_together.R;
@@ -22,6 +26,7 @@ import com.example.watch_together.Utills.WatchTogether;
 import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
@@ -71,6 +76,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         private TextView rating;
         private TextView director;
         private TextView plot;
+        private ConstraintLayout categories;
         private Button infoButton;
         private Button favouriteButton;
         private Button dismissButton;
@@ -85,6 +91,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             rating = (TextView) movieView.findViewById(R.id.rating);
             director = (TextView) movieView.findViewById(R.id.director);
             plot = (TextView) movieView.findViewById(R.id.plot);
+            categories = (ConstraintLayout)movieView.findViewById(R.id.categories);
             infoButton = (Button) movieView.findViewById(R.id.infoBtn);
             favouriteButton = (Button) movieView.findViewById(R.id.favouriteBtn);
             dismissButton = (Button) movieView.findViewById(R.id.dismissBtn);
@@ -101,6 +108,54 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             if (!isSearch) {
                 favouriteButton.setText("Unfavourite");
             }
+            ArrayList<String> genres = movie.getGenres();
+
+            ArrayList<Integer> genreIDs = new ArrayList<>();
+            genreIDs.add(R.id.genre1);
+            genreIDs.add(R.id.genre2);
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(categories);
+            TextView previousCategory = null;
+
+            /* https://spin.atomicobject.com/2019/04/08/constraintlayout-chaining-views-programmatically/ */
+            for (int i = 0 ; i < genres.size() ; i++) {
+
+                TextView category = new TextView(context);
+                if (i < genreIDs.size()) {
+                    category.setId(genreIDs.get(i));
+                }
+
+                constraintSet.constrainWidth(category.getId(), ConstraintSet.WRAP_CONTENT);
+                constraintSet.constrainHeight(category.getId(), ConstraintSet.WRAP_CONTENT);
+
+                category.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_border));
+
+                category.setText(genres.get(i));
+                category.setTextColor(ContextCompat.getColor(context, R.color.black));
+                category.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+
+                constraintSet.setHorizontalBias(category.getId(), (float) 0.5);
+                constraintSet.connect(category.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP);
+
+                categories.addView(category);
+
+                boolean lastCategory = i == genres.size() - 1;
+                if (previousCategory == null) {
+                    constraintSet.connect(category.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+                    constraintSet.setHorizontalChainStyle(category.getId(), ConstraintSet.CHAIN_SPREAD);
+                }
+                else {
+                    constraintSet.connect(previousCategory.getId(), ConstraintSet.END, category.getId(), ConstraintSet.START);
+                    constraintSet.connect(category.getId(), ConstraintSet.START, previousCategory.getId(), ConstraintSet.END);
+                    if (lastCategory) {
+                        constraintSet.connect(category.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+                    }
+                }
+
+                previousCategory = category;
+            }
+            constraintSet.applyTo(categories);
         }
 
         public void addButtonListeners(int position) {
