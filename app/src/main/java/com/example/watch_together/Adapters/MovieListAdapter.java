@@ -135,7 +135,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 category.setTextColor(ContextCompat.getColor(context, R.color.black));
                 category.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 
-                constraintSet.setHorizontalBias(category.getId(), (float) 0.5);
                 constraintSet.connect(category.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP);
 
                 categories.addView(category);
@@ -143,9 +142,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 boolean lastCategory = i == genres.size() - 1;
                 if (previousCategory == null) {
                     constraintSet.connect(category.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
-                    constraintSet.setHorizontalChainStyle(category.getId(), ConstraintSet.CHAIN_SPREAD);
                 }
                 else {
+                    constraintSet.setMargin(category.getId(), ConstraintSet.START, (int)(8 * context.getResources().getDisplayMetrics().density));
                     constraintSet.connect(previousCategory.getId(), ConstraintSet.END, category.getId(), ConstraintSet.START);
                     constraintSet.connect(category.getId(), ConstraintSet.START, previousCategory.getId(), ConstraintSet.END);
                     if (lastCategory) {
