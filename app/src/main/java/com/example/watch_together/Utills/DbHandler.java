@@ -144,6 +144,17 @@ public class DbHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    public boolean isFavouriteMovieByID(String userID, String movieID) {
+        String query = "SELECT FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + "='" + userID + "' AND " + COLUMN_MOVIE_ID + "='" + movieID + "';";
+        Log.d("de", query);
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        sqLiteDatabase.close();
+        Log.d("de", "Found " + cursor.getCount() + "favourite movie(s).");
+        return cursor.getCount() > 0;
+    }
+
     public void resetFavouritesByUserID(String userID) {
         String query = "DELETE FROM " + TABLE_FAVOURITES + " WHERE " + COLUMN_USER_ID + "='" + userID + "';";
         Log.d("de", query);

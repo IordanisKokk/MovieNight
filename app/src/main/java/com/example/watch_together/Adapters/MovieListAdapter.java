@@ -32,18 +32,16 @@ import java.util.Objects;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
     private ArrayList<MovieModel> movies = new ArrayList<>();
     private Context context;
-    boolean isSearch;
     private String userID;
 
-    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean isSearch) {
+    public MovieListAdapter(Context context, ArrayList<MovieModel> movies) {
         this.context = context;
         this.movies = movies;
-        this.isSearch = isSearch;
         userID = "";
     }
 
-    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean isSearch, String userID) {
-        this(context, movies, isSearch);
+    public MovieListAdapter(Context context, ArrayList<MovieModel> movies, String userID) {
+        this(context, movies);
         this.userID = userID;
     }
 
@@ -105,7 +103,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             rating.setText(context.getResources().getString(R.string.rating, String.valueOf(movie.getVoteAverage())));
             director.setText(context.getResources().getString(R.string.director, movie.getTitle()));
             plot.setText(context.getResources().getString(R.string.plot_summary, movie.getMovieOverview()));
-            if (!isSearch) {
+            if (new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
                 favouriteButton.setText("Unfavourite");
             }
             ArrayList<String> genres = movie.getGenres();
@@ -174,7 +172,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 @Override
                 public void onClick(View view) {
                     if (!Objects.equals(userID, "")) {
-                        if (isSearch) {
+                        if (new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
                             new DisFavUtil().favouriteMovie(context, userID, movieID);
                         }
                         else {

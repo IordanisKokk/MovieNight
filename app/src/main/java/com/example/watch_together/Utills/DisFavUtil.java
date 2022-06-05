@@ -36,6 +36,11 @@ public class DisFavUtil {
         databaseHandler.unfavouriteMovieByID(userID, movieID);
     }
 
+    public boolean isFavouriteMovie(Context context, String userID, String movieID) {
+        databaseHandler = new DbHandler(context, null, null, 1);
+        return databaseHandler.isFavouriteMovieByID(userID, movieID);
+    }
+
     public void resetFavourites(Context context, String userID) {
         databaseHandler = new DbHandler(context, null, null, 1);
         databaseHandler.resetFavouritesByUserID(userID);
