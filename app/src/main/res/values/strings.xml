@@ -16,4 +16,9 @@
     <string name="google_account_login">Alternatively, you can use your Goolge Account</string>
     <string name="search_here">Search Here</string>
     <string name="search">Search for friends!</string>
+
+    <string name="release_date">Release date: %1$s</string>
+    <string name="rating">Rating: %1$s/10</string>
+    <string name="director">Director: %1$s</string>
+    <string name="plot_summary">Plot summary: %1$s</string>
 </resources>

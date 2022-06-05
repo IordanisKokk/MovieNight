@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.watch_together.R;
+import com.example.watch_together.Utills.WatchTogether;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((WatchTogether) this.getApplication()).setUserID("A1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

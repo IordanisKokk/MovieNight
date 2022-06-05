@@ -34,14 +34,14 @@ public class SearchUtil {
         return genreSearch;
     }
 
-    public ArrayList<MovieModel> searchForMovies(Context context){
+    public ArrayList<MovieModel> searchForMovies(Context context, String userID){
         databaseHandler = new DbHandler(context, null, null, 1);
         ArrayList<MovieModel> movies = new ArrayList<>();
 
         if(titleSearch == null && genreSearch.get(0).equals("")){
             return null;
         }else if(genreSearch.get(0).equals("")){
-            movies = databaseHandler.findMovieByTitle(titleSearch);
+            movies = databaseHandler.findMovieByTitle(titleSearch, userID);
         }else{
             StringBuilder genresSearchStringBuilder = new StringBuilder();
             for (String genre : genreSearch) {
@@ -51,7 +51,7 @@ public class SearchUtil {
             genresSearchStringBuilder.deleteCharAt(genresSearchStringBuilder.length()-1);
 
             Log.d("de",genresSearchStringBuilder.toString());
-            movies = databaseHandler.findMovieByTitleAndGenre(titleSearch, genresSearchStringBuilder.toString());
+            movies = databaseHandler.findMovieByTitleAndGenre(titleSearch, genresSearchStringBuilder.toString(), userID);
 //            return null;
         }
 

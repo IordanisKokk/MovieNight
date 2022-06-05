@@ -31,4 +31,10 @@
         app:layout_constraintLeft_toRightOf="@id/searchTitleLabel"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchMovieCards"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchTitleLabel"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

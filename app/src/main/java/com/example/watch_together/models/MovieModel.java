@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class MovieModel {
 
-    private int movieID;
+    private String movieID;
     private String title;
     private String releaseDate;
     private float voteAverage;
@@ -21,7 +21,7 @@ public class MovieModel {
     public MovieModel(){}
 
 
-    public MovieModel(int movieID, String title, String releaseDate, float voteAverage, String movieOverview, String posterPath, ArrayList<String> genres) {
+    public MovieModel(String movieID, String title, String releaseDate, float voteAverage, String movieOverview, String posterPath, ArrayList<String> genres) {
         this.movieID = movieID;
         this.title = title;
         this.posterPath = posterPath;
@@ -31,7 +31,7 @@ public class MovieModel {
         this.genres = genres;
     }
 
-    public void setMovieID(int movieID) {
+    public void setMovieID(String movieID) {
         this.movieID = movieID;
     }
 
@@ -59,7 +59,7 @@ public class MovieModel {
         this.genres = genres;
     }
 
-    public int getMovieID() {
+    public String getMovieID() {
         return movieID;
     }
 

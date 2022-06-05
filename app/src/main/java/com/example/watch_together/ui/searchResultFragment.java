@@ -1,8 +1,11 @@
 package com.example.watch_together.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.watch_together.Adapters.MovieListAdapter;
 import com.example.watch_together.R;
 import com.example.watch_together.Utills.SearchUtil;
+import com.example.watch_together.Utills.WatchTogether;
 import com.example.watch_together.models.MovieModel;
 
 import java.util.ArrayList;
@@ -37,6 +42,8 @@ public class searchResultFragment extends Fragment {
     private String genres;
 
     TextView searchTitle;
+    RecyclerView recyclerView;
+    MovieListAdapter adapter;
 
     public searchResultFragment() {
         // Required empty public constructor
@@ -78,12 +85,14 @@ public class searchResultFragment extends Fragment {
         Log.d("de", "Searching for title: " + titleSearch + " and genres:" + genres);
         searchTitle = (TextView) view.findViewById(R.id.searchTitle);
         searchTitle.setText(titleSearch.toString());
-        findMovie();
+        recyclerView = (RecyclerView) view.findViewById(R.id.searchMovieCards);
+        recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        findMovie(container.getContext());
 
         return view;
     }
 
-    public void findMovie(){
+    public void findMovie(Context context){
 
         String[] genresSplit = genres.split(",");
         ArrayList<String> genresList = new ArrayList<>(Arrays.asList(genresSplit));
@@ -92,10 +101,13 @@ public class searchResultFragment extends Fragment {
             Log.d("de", genre);
         }
         ArrayList<MovieModel> movies;
-        movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity());
+        String userID = ((WatchTogether) getActivity().getApplication()).getUserID();
+        movies = new SearchUtil(titleSearch, genresList).searchForMovies(getActivity(), userID);
         if(movies != null){
+            adapter = new MovieListAdapter(context, movies, false, userID);
+            recyclerView.setAdapter(adapter);
             for (MovieModel movie: movies) {
-                Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString());
+                Log.d("de", "Movie: " + movie.getTitle() + " Rating: " + movie.getVoteAverage() + " Release Date: " + movie.getReleaseDate() + " Genre(s): " + movie.getGenres().toString() + " Poster: " + movie.getPosterPath());
             }
         }
 
