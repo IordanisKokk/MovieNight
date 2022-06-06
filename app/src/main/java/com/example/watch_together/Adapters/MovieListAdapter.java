@@ -29,12 +29,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Adapter class for the RecyclerView view. It takes an Arraylist of MovieModel objects
+ * and displays them in the RecyclerView as cards.
+ */
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
-    private ArrayList<MovieModel> movies = new ArrayList<>();
-    private Context context;
-    private boolean favouriteRemoves;
-    private String userID;
+    private ArrayList<MovieModel> movies = new ArrayList<>(); // The Arraylist of movies.
+    private Context context; // The current context.
+    private boolean favouriteRemoves; // Bool variable to check if the favourite button should remove the movie from the displayed list.
+    private String userID; // The ID of the user performing actions on the list of movies.
 
+    /**
+     * Class constructor that sets the ID of the user to the empty string.
+     * @param context the current context.
+     * @param movies the Arraylist of MovieModel objects that holds the movies.
+     * @param favouriteRemoves true if you want the favourite button to remove from the list of displayed movies.
+     */
     public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean favouriteRemoves) {
         this.context = context;
         this.movies = movies;
@@ -42,6 +52,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         this.userID = "";
     }
 
+    /**
+     * Full class constructor.
+     * @param context the current context.
+     * @param movies the Arraylist of MovieModel objects that holds the movies.
+     * @param favouriteRemoves true if you want the favourite button to remove from the list of displayed movies.
+     * @param userID the ID of the user performing actions on the list of movies.
+     */
     public MovieListAdapter(Context context, ArrayList<MovieModel> movies, boolean favouriteRemoves, String userID) {
         this(context, movies, favouriteRemoves);
         this.userID = userID;
@@ -57,15 +74,21 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        holder.bindMovie(movies.get(position));
-        holder.addButtonListeners(position);
+        holder.bindMovie(movies.get(position)); // Bind the movie in the given position.
+        holder.addButtonListeners(position); // Add listeners to the buttons of the movie in the given position.
     }
 
     @Override
+    /**
+     * Returns the amount of movies the adapter currently holds.
+     */
     public int getItemCount() {
         return movies.size();
     }
 
+    /**
+     * Class that binds the given movie to the given view.
+     */
     public class MovieViewHolder extends RecyclerView.ViewHolder {
         private Context context;
 
@@ -81,6 +104,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         private Button favouriteButton;
         private Button dismissButton;
 
+        /**
+         * Class constructor that saves references to the items of the view that the movie will be bound to.
+         * @param movieView
+         */
         private MovieViewHolder(View movieView) {
             super(movieView);
             context = movieView.getContext();
@@ -97,9 +124,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             dismissButton = (Button) movieView.findViewById(R.id.dismissBtn);
         }
 
+        /**
+         * Method that binds the given movie to the view passed as a parameter in the class constructor.
+         * @param movie the movie to be bound to the view passed as a parameter in the class constructor.
+         */
         public void bindMovie(MovieModel movie) {
+            // Set all the easy properties of the view.
             movieID = movie.getMovieID();
-            poster.setImageDrawable(Drawable.createFromPath(movie.getPosterPath()));
+            poster.setImageResource(context.getResources().getIdentifier("doctor_strange.jpg", "drawable", context.getPackageName()));
             title.setText(movie.getTitle());
             year.setText(context.getResources().getString(R.string.release_date, movie.getReleaseDate()));
             rating.setText(context.getResources().getString(R.string.rating, String.valueOf(movie.getVoteAverage())));
@@ -108,17 +140,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             if (new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
                 favouriteButton.setText("Unfavourite");
             }
-            ArrayList<String> genres = movie.getGenres();
 
+            // Create an Arraylist with the IDs of each of the genres declared in the values/ids.xml file.
+            ArrayList<String> genres = movie.getGenres();
             ArrayList<Integer> genreIDs = new ArrayList<>();
             genreIDs.add(R.id.genre1);
             genreIDs.add(R.id.genre2);
 
+            // Create a ConstraintSet that is a copy of the current ConstraintSet of the categories ConstraintLayout.
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(categories);
             TextView previousCategory = null;
 
-            /* https://spin.atomicobject.com/2019/04/08/constraintlayout-chaining-views-programmatically/ */
+            /* For each of the genres of the movie add a new TextView to the categories ConstraintLayout that shows the
+            * genre and set its properties programmatically. */
             for (int i = 0 ; i < genres.size() ; i++) {
 
                 TextView category = new TextView(context);
@@ -157,7 +192,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             constraintSet.applyTo(categories);
         }
 
+        /**
+         * Method that adds OnClickListeners to the "More Info", "Favourite/Unfavourite" and "Dismiss" buttons of the movie cart.
+         * @param position the index of the movie in the movies ArrayList.
+         */
         public void addButtonListeners(int position) {
+            // Listener that opens a browser page that leads to the movie's imdb page.
             infoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -165,11 +205,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                    intent.setData(Uri.parse("http://www.imdb.com"));
+                    intent.setData(Uri.parse("https://www.imdb.com/title/" + movieID + "/"));
                     context.startActivity(intent);
                 }
             });
 
+            // Listener that either adds the movie to the list of the user's favourites, or removes it from that list.
             favouriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -196,6 +237,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 }
             });
 
+            // Listener that adds the movie to the list of the user's dismissed movies.
             dismissButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

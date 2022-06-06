@@ -84,6 +84,12 @@ public class homeFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Method that finds all the movies the user has favourited, adds them to an Arraylist
+     * , passes that Arraylist to the MovieListAdapter as a parameter and then sets the
+     * adapter as the RecyclerView's adapter to display the movies.
+     * @param context the current context.
+     */
     public void findFavourites(Context context){
         ArrayList<MovieModel> movies;
         String userID = ((WatchTogether) getActivity().getApplication()).getUserID();

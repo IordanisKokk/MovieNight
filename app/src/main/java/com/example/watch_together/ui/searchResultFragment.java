@@ -85,6 +85,8 @@ public class searchResultFragment extends Fragment {
         Log.d("de", "Searching for title: " + titleSearch + " and genres:" + genres);
         searchTitle = (TextView) view.findViewById(R.id.searchTitle);
         searchTitle.setText(titleSearch.toString());
+
+        // Get and set a LinearLayoutManager for the RecyclerView that will hold the movie cards.
         recyclerView = (RecyclerView) view.findViewById(R.id.searchMovieCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         findMovie(container.getContext());
@@ -92,6 +94,12 @@ public class searchResultFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Method that finds all the movies that match the search parameters, adds them to an Arraylist,
+     * passes that Arraylist to the MovieListAdapter as a parameter and then sets the
+     * adapter as the RecyclerView's adapter to display the movies.
+     * @param context the current context.
+     */
     public void findMovie(Context context){
 
         String[] genresSplit = genres.split(",");
