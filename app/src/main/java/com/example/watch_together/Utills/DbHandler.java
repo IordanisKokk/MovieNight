@@ -85,16 +85,16 @@ public class DbHandler extends SQLiteOpenHelper {
     public void onCreateInsertValues(SQLiteDatabase sqLiteDatabase) {
 //        String INSERT_INTO_MOVIES = new StringBuilder().append("INSERT INTO ").append(TABLE_MOVIES).append("(").append(COLUMN_MOVIE_TITLE).append(", ").append(COLUMN_MOVIE_RELEASE_DATE).append(", ").append(COLUMN_MOVIE_RATING).append(", ").append(COLUMN_MOVIE_OVERVIEW).append(", ").append(COLUMN_MOVIE_TITLE).append(", ").append(COLUMN_MOVIE_POSTER_PATH).append(") VALUES ").append("      ('The Shawshank Redemption', '1994/09/10', 9.2, 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', '/res/drawable/images/shawshank.png'),\n").append("      ('The Godfather', '1972/03/14', 9.2, 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', '/res/drawable/images/godfather.png'),\n").append("      ('The Dark Knight', '2008/07/14', 9.0, 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.', '/res/drawable/images/darkknight.png'),\n").append("      ('The Godfather: Part II', '1972/03/14', 9.0, 'The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.', '/res/drawable/images/godfather2.png'),\n").append("      ('12 Angry Men', '1957/4/10', 9.0, 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', '/res/drawable/images/twelveangrymen.png'),\n").append("      (\"Schindler's List\", '1993/00/00', 9.0, 'In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.', '/res/drawable/images/schindlerslist.png');").toString();
 
-        String INSERT_INTO_MOVIE_GENRES = new StringBuilder().append("INSERT INTO ").append(TABLE_MOVIE_GENRES).append(" VALUES ").append("(1,'Drama'),\n").append("(2, 'Drama'),\n").append("(3, 'Action'),\n").append("(3, 'Drama'),\n").append("(4, 'Drama'),\n").append("(5, 'Drama'),\n").append("(6, 'Drama');").toString();
+        String INSERT_INTO_MOVIE_GENRES = new StringBuilder().append("INSERT INTO ").append(TABLE_MOVIE_GENRES).append(" VALUES ").append("(1,'Drama'),\n").append("(2, 'Drama'),\n").append("('tt0468569', 'Action'),\n").append("(3, 'Drama'),\n").append("(4, 'Drama'),\n").append("(5, 'Drama'),\n").append("(6, 'Drama');").toString();
 
         String INSERT_INTO_MOVIES = "INSERT INTO movies (movie_id, movie_title, movie_release_date, movie_rating, movie_overview, movie_poster_path)\n" +
                 "    VALUES\n" +
-                "      ('1', 'The Shawshank Redemption', '1994/09/10', 9.2, 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', '@drawable/doctor_strange'),\n" +
-                "      ('2', 'The Godfather', '1972/03/14', 9.2, 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', '@drawable/doctor_strange'),\n" +
-                "      ('3', 'The Dark Knight', '2008/07/14', 9.0, 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.', '@drawable/doctor_strange'),\n" +
-                "      ('4', 'The Godfather: Part II', '1972/03/14', 9.0, 'The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.', '@drawable/doctor_strange'),\n" +
-                "      ('5', '12 Angry Men', '1957/4/10', 9.0, 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', '@drawable/doctor_strange'),\n" +
-                "      ('6', \"Schindler's List\", '1993/00/00', 9.0, 'In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.', '@drawable/doctor_strange');\n";
+                "      ('1', 'The Shawshank Redemption', '1994/09/10', 9.2, 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', 'doctor_strange'),\n" +
+                "      ('2', 'The Godfather', '1972/03/14', 9.2, 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', 'doctor_strange'),\n" +
+                "      ('tt0468569', 'The Dark Knight', '2008/07/14', 9.0, 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.', 'poster_tt0468569'),\n" +
+                "      ('4', 'The Godfather: Part II', '1972/03/14', 9.0, 'The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.', 'doctor_strange'),\n" +
+                "      ('5', '12 Angry Men', '1957/4/10', 9.0, 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', 'doctor_strange'),\n" +
+                "      ('6', \"Schindler's List\", '1993/00/00', 9.0, 'In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.', 'doctor_strange');\n";
 
         sqLiteDatabase.execSQL(INSERT_INTO_MOVIES);
         sqLiteDatabase.execSQL(INSERT_INTO_MOVIE_GENRES);
@@ -240,7 +240,10 @@ public class DbHandler extends SQLiteOpenHelper {
                     movie = null;
                 }
 
-                genreQuery = new StringBuilder().append("SELECT * FROM ").append(TABLE_MOVIE_GENRES).append(" WHERE ").append(COLUMN_GENRE_MOVIE_ID).append(" = ").append(movieId).toString();
+                Log.d("de", "Movie ID is: " + movieId);
+
+                genreQuery = new StringBuilder().append("SELECT * FROM ").append(TABLE_MOVIE_GENRES).append(" WHERE ").append(COLUMN_GENRE_MOVIE_ID).append(" = '").append(movieId).append("';").toString();
+
 
                 cursor = sqLiteDatabase.rawQuery(genreQuery, null);
                 if (cursor.moveToFirst()) {
@@ -271,7 +274,7 @@ public class DbHandler extends SQLiteOpenHelper {
                         movie = null;
                     }
 
-                    genreQuery = new StringBuilder().append("SELECT * FROM ").append(TABLE_MOVIE_GENRES).append(" WHERE ").append(COLUMN_GENRE_MOVIE_ID).append(" = ").append(movieId).toString();
+                    genreQuery = new StringBuilder().append("SELECT * FROM ").append(TABLE_MOVIE_GENRES).append(" WHERE ").append(COLUMN_GENRE_MOVIE_ID).append(" = '").append(movieId).append("';").toString();
 
                     cursor = sqLiteDatabase.rawQuery(genreQuery, null);
                     if (cursor.moveToFirst()) {

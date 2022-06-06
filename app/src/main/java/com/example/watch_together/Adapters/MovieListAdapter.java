@@ -131,7 +131,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         public void bindMovie(MovieModel movie) {
             // Set all the easy properties of the view.
             movieID = movie.getMovieID();
-            poster.setImageResource(context.getResources().getIdentifier("doctor_strange.jpg", "drawable", context.getPackageName()));
+            poster.setImageDrawable(context.getResources().getDrawable(context.getResources().getIdentifier(movie.getPosterPath(), "drawable", context.getPackageName())));
             title.setText(movie.getTitle());
             year.setText(context.getResources().getString(R.string.release_date, movie.getReleaseDate()));
             rating.setText(context.getResources().getString(R.string.rating, String.valueOf(movie.getVoteAverage())));
@@ -233,7 +233,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                             }
                         }
                     }
-                    Log.d("de", "movie at " + position + " added to favorites.");
+                    Log.d("de", "movie " + movieID + " added to favorites.");
                 }
             });
 
