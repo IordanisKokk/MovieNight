@@ -3,11 +3,14 @@ package com.example.watch_together.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.watch_together.R;
+import com.example.watch_together.Utills.DisFavUtil;
+import com.example.watch_together.Utills.WatchTogether;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Button setPasswordButton;
     private Button resetFavoritesButton;
     private Button resetDismissedButton;
+    private Button backButton;
+    private Button logOutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
         setPasswordButton = findViewById(R.id.setPasswordButton);
         resetFavoritesButton = findViewById(R.id.buttonRF);
         resetDismissedButton = findViewById(R.id.buttonRD);
+        backButton = findViewById(R.id.buttonBA);
+        logOutButton = findViewById(R.id.buttonLO);
 
         password = findViewById(R.id.changePassword);
         email = findViewById(R.id.changeEmailAddress);
@@ -87,6 +94,8 @@ public class SettingsActivity extends AppCompatActivity {
         resetFavoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                new DisFavUtil().resetFavourites(getApplicationContext(), firebaseAuth.getCurrentUser().getUid());
                 Toast.makeText(getApplicationContext(),"reset favorites", Toast.LENGTH_LONG).show();
             }
         });
@@ -94,7 +103,26 @@ public class SettingsActivity extends AppCompatActivity {
         resetDismissedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                new DisFavUtil().resetDismissed(getApplicationContext(), firebaseAuth.getCurrentUser().getUid());
                 Toast.makeText(getApplicationContext(),"reset dismissed", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 

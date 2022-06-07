@@ -26,7 +26,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginTop="100dp"
         android:ems="10"
-        android:hint="change your email"
+        android:hint="Enter new email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
         android:ems="10"
-        android:hint="change your password"
+        android:hint="Enter new password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,40 +49,60 @@
         android:id="@+id/setEmailButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:text="SET"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeEmailAddress" />
+        android:layout_marginStart="20dp"
+        android:text="SAVE"
+        app:layout_constraintStart_toEndOf="@id/changeEmailAddress"
+        app:layout_constraintTop_toTopOf="@id/changeEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@id/changeEmailAddress"/>
 
     <Button
         android:id="@+id/setPasswordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:text="Set"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePassword" />
+        android:layout_marginStart="20dp"
+        android:text="SAVE"
+        app:layout_constraintStart_toEndOf="@id/changePassword"
+        app:layout_constraintTop_toTopOf="@id/changePassword"
+        app:layout_constraintBottom_toBottomOf="@id/changePassword" />
 
     <Button
         android:id="@+id/buttonRF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
         android:layout_marginTop="70dp"
-        android:text="reset favorites"
+        android:text="reset favourite movies"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setPasswordButton" />
 
     <Button
         android:id="@+id/buttonRD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="6dp"
-        android:text="reset dismissed"
+        android:layout_marginTop="20dp"
+        android:text="reset dismissed movies"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setPasswordButton" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRF" />
+
+    <Button
+        android:id="@+id/buttonBA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="back to home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRD" />
+
+    <Button
+        android:id="@+id/buttonLO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="log out"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBA" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
