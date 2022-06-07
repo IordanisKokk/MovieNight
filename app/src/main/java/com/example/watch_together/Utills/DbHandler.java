@@ -382,7 +382,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM " + TABLE_MOVIES + " WHERE " +
                 COLUMN_MOVIE_TITLE + " LIKE '%" + movieTitle + "%' AND " + TABLE_MOVIES + "." + COLUMN_MOVIE_ID + " NOT IN (SELECT " +
-        COLUMN_MOVIE_ID + " FROM " + TABLE_DISMISSED + " WHERE " + COLUMN_USER_ID + "='" + userID + "');";
+        COLUMN_MOVIE_ID + " FROM " + TABLE_DISMISSED + " WHERE " + COLUMN_USER_ID + "='" + userID + "') LIMIT 20;";
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         String[] columns = new String[]{COLUMN_MOVIE_ID, COLUMN_MOVIE_TITLE, COLUMN_MOVIE_RELEASE_DATE, COLUMN_MOVIE_RATING, COLUMN_MOVIE_OVERVIEW, COLUMN_MOVIE_POSTER_PATH};
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
