@@ -79,75 +79,175 @@
             android:id="@+id/action"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             app:chipIconEnabled="false"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Action"
             android:textAlignment="center" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/thriller"
+            android:id="@+id/adventure"
             style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thriller"
+            android:text="Adventure"
             android:textAlignment="center" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/horror"
+            android:id="@+id/animation"
             style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Horror"
-            android:textAlignment="center" />
-
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/romance"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:text="Romance"
+            android:text="Animation"
             android:textAlignment="center" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/mystery"
+            android:id="@+id/biography"
             style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mystery"
-            android:textAlignment="center" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/fantasy"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="Fantasy"
+            android:text="Biography"
             android:textAlignment="center" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/comedy"
             style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Comedy"
             android:textAlignment="center" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/western"
+            android:id="@+id/crime"
             style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Western"
+            android:text="Crime"
             android:textAlignment="center" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/drama"
             style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Drama"
             android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/fantasy"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fantasy"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/filmNoir"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Film-Noir"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/history"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="History"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/music"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Music"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/mystery"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mystery"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/romance"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Romance"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sciFi"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sci-Fi"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/thriller"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thriller"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/war"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="War"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/western"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Western"
+            android:textAlignment="center" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/horror"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horror"
+            android:textAlignment="center" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </com.google.android.material.chip.ChipGroup>
 
