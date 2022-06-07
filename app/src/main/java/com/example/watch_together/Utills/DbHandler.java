@@ -88,7 +88,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
         String INSERT_INTO_MOVIE_GENRES = new StringBuilder().append("INSERT INTO ").append(TABLE_MOVIE_GENRES).append(" VALUES ").append("(1,'Drama'),\n").append("(2, 'Drama'),\n").append("('tt0468569', 'Action'),\n").append("(3, 'Drama'),\n").append("(4, 'Drama'),\n").append("(5, 'Drama'),\n").append("(6, 'Drama');").toString();
 
-        String INSERT_INTO_MOVIES = "INSERT INTO movies (movie_id, movie_title, movie_release_date, movie_rating, movie_overview, movie_poster_path)\n" +
+        String INSERT_INTO_MOVIES = "INSERT INTO movies (" + COLUMN_MOVIE_ID + ", " + COLUMN_MOVIE_TITLE + ", " + COLUMN_MOVIE_RELEASE_DATE + ", " + COLUMN_MOVIE_DIRECTORS + ", " + COLUMN_MOVIE_RATING + ", " + COLUMN_MOVIE_OVERVIEW + ", " + COLUMN_MOVIE_POSTER_PATH + ")\n" +
                 "    VALUES\n" +
                 "      ('1', 'The Shawshank Redemption', '1994/09/10', 'Frank Darabont', 9.2, 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', 'doctor_strange'),\n" +
                 "      ('2', 'The Godfather', '1972/03/14', 'Francis Ford Coppola', 9.2, 'The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.', 'doctor_strange'),\n" +
