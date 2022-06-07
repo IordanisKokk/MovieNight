@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.watch_together" >
+    package="com.example.watch_together">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".Utills.WatchTogether"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:logo="@drawable/ic_logo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WatchTogether"
-        android:name=".Utills.WatchTogether" >
-<!--        android:theme="@style/Theme.AppCompat.Light.NoActionBar">-->
-
-
+        android:theme="@style/Theme.WatchTogether">
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false" />
+        <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar"> -->
         <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginRegistrationActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

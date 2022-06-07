@@ -1,6 +1,7 @@
 package com.example.watch_together.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ public class profileFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
 
     TextView logoutButton;
+    Button settingsButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,6 +92,15 @@ public class profileFragment extends Fragment {
 
                 ((MainActivity)getActivity()).makeLoginRegistrationActivityIntent();
 //                Toast.makeText(view.getContext(), "LOG", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        settingsButton = (Button) view.findViewById(R.id.SettingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
 
