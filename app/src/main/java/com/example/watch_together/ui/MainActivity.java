@@ -50,17 +50,19 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.homeFragment:
                     //code
                     selectedFragment = new homeFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
                     break;
                 case R.id.searchFragment:
                     //code
                     selectedFragment = new searchFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
                     break;
                 case R.id.profileFragment:
                     //code
-                    selectedFragment = new profileFragment();
+                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                    startActivity(intent);
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
             return true;
         }
     };
