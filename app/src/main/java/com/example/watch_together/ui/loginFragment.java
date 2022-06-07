@@ -37,7 +37,6 @@ public class loginFragment extends Fragment {
     private Button loginButton;
     private EditText email;
     private EditText password;
-    private TextView forgotPasswordLink;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -122,7 +121,6 @@ public class loginFragment extends Fragment {
         loginButton = (Button) view.findViewById(R.id.loginButton);
         email = (EditText) view.findViewById(R.id.email_edit_text);
         password = (EditText) view.findViewById(R.id.password_edit_text);
-        forgotPasswordLink = (TextView) view.findViewById(R.id.forgotPsswrd);
 
         /*
           Adding an OnClickListener to the loginButton, that gets the user's email and password
@@ -153,15 +151,15 @@ public class loginFragment extends Fragment {
           For now, this only shows a toast on the screen with the text "Reset Password".
           TODO : add the functionality for password reset.
          */
-        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CharSequence text = "Reset Password";
-                Context context = getActivity().getApplicationContext();
-                Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
+//        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                CharSequence text = "Reset Password";
+//                Context context = getActivity().getApplicationContext();
+//                Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+//                toast.show();
+//            }
+//        });
 
         return view;
     }

@@ -114,10 +114,10 @@ public class registerFragment extends Fragment {
 
         //instantiating all the ui elements contained in the loginFragment.
         signupButton = (Button) view.findViewById(R.id.signUpButton);
-        username = (EditText) view.findViewById(R.id.username);
-        email = (EditText) view.findViewById(R.id.email);
-        password = (EditText) view.findViewById(R.id.password);
-        confirmedPassword = (EditText) view.findViewById(R.id.confirmPassword);
+        username = (EditText) view.findViewById(R.id.username_edit_text);
+        email = (EditText) view.findViewById(R.id.email_edit_text);
+        password = (EditText) view.findViewById(R.id.password_edit_text);
+        confirmedPassword = (EditText) view.findViewById(R.id.confirm_password_edit_text);
 
          /*
           Adding an OnClickListener to the signupButton, that gets the user's username, email, password
