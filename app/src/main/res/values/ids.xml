@@ -6,4 +6,25 @@
     <item
         type="id"
         name="genre2" />
+    <item
+        type="id"
+        name="genre3" />
+    <item
+        type="id"
+        name="genre4" />
+    <item
+        type="id"
+        name="genre5" />
+    <item
+        type="id"
+        name="genre6" />
+    <item
+        type="id"
+        name="genre7" />
+    <item
+        type="id"
+        name="genre8" />
+    <item
+        type="id"
+        name="genre9" />
 </resources>
