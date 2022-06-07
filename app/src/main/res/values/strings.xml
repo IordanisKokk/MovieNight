@@ -19,7 +19,7 @@
 
     <string name="release_date">Release date: %1$s</string>
     <string name="rating">Rating: %1$s/10</string>
-    <string name="director">Director: %1$s</string>
+    <string name="directors">Director(s): %1$s</string>
     <string name="plot_summary">Plot summary: %1$s</string>
 
     <string name="search_term">"Search results for: %1$s"</string>

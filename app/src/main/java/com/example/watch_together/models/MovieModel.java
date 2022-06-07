@@ -13,6 +13,7 @@ public class MovieModel {
     private String movieID;
     private String title;
     private String releaseDate;
+    private String directors;
     private float voteAverage;
     private String movieOverview;
     private String posterPath;
@@ -21,13 +22,14 @@ public class MovieModel {
     public MovieModel(){}
 
 
-    public MovieModel(String movieID, String title, String releaseDate, float voteAverage, String movieOverview, String posterPath, ArrayList<String> genres) {
+    public MovieModel(String movieID, String title, String releaseDate, String directors, float voteAverage, String movieOverview, String posterPath, ArrayList<String> genres) {
         this.movieID = movieID;
         this.title = title;
-        this.posterPath = posterPath;
         this.releaseDate = releaseDate;
+        this.directors = directors;
         this.voteAverage = voteAverage;
         this.movieOverview = movieOverview;
+        this.posterPath = posterPath;
         this.genres = genres;
     }
 
@@ -41,6 +43,10 @@ public class MovieModel {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public void setDirectors(String directors) {
+        this.directors = directors;
     }
 
     public void setVoteAverage(float voteAverage) {
@@ -69,6 +75,10 @@ public class MovieModel {
 
     public String getReleaseDate() {
         return releaseDate;
+    }
+
+    public String getDirectors() {
+        return directors;
     }
 
     public float getVoteAverage() {

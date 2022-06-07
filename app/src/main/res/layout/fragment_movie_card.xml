@@ -94,7 +94,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/director"
+                    android:id="@+id/directors"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -115,7 +115,7 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/poster"
-                    app:layout_constraintTop_toBottomOf="@+id/director" />
+                    app:layout_constraintTop_toBottomOf="@+id/directors" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/categories"

@@ -98,7 +98,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         private TextView title;
         private TextView year;
         private TextView rating;
-        private TextView director;
+        private TextView directors;
         private TextView plot;
         private ConstraintLayout categories;
         private Button infoButton;
@@ -118,7 +118,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             title = (TextView) movieView.findViewById(R.id.title);
             year = (TextView) movieView.findViewById(R.id.year);
             rating = (TextView) movieView.findViewById(R.id.rating);
-            director = (TextView) movieView.findViewById(R.id.director);
+            directors = (TextView) movieView.findViewById(R.id.directors);
             plot = (TextView) movieView.findViewById(R.id.plot);
             categories = (ConstraintLayout)movieView.findViewById(R.id.categories);
             infoButton = (Button) movieView.findViewById(R.id.infoBtn);
@@ -137,8 +137,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             poster.setImageDrawable(context.getResources().getDrawable(context.getResources().getIdentifier(movie.getPosterPath(), "drawable", context.getPackageName())));
             title.setText(movie.getTitle());
             year.setText(context.getResources().getString(R.string.release_date, movie.getReleaseDate()));
+            directors.setText(context.getResources().getString(R.string.directors, movie.getDirectors()));
             rating.setText(context.getResources().getString(R.string.rating, String.valueOf(movie.getVoteAverage())));
-            director.setText(context.getResources().getString(R.string.director, movie.getTitle()));
             plot.setText(context.getResources().getString(R.string.plot_summary, movie.getMovieOverview()));
             if (new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
                 favouriteButton.setText("Unfavourite");
