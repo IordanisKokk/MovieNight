@@ -99,6 +99,7 @@ public class settingsFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
+
             }
         });
 
