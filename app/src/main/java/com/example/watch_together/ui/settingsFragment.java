@@ -1,6 +1,5 @@
 package com.example.watch_together.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,17 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.watch_together.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link profileFragment#newInstance} factory method to
+ * Use the {@link settingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class profileFragment extends Fragment {
+public class settingsFragment extends Fragment {
 
     View view;
     private FirebaseAuth firebaseAuth;
@@ -39,7 +37,7 @@ public class profileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public profileFragment() {
+    public settingsFragment() {
         // Required empty public constructor
     }
 
@@ -52,8 +50,8 @@ public class profileFragment extends Fragment {
      * @return A new instance of fragment profileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static profileFragment newInstance(String param1, String param2) {
-        profileFragment fragment = new profileFragment();
+    public static settingsFragment newInstance(String param1, String param2) {
+        settingsFragment fragment = new settingsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
