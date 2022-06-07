@@ -74,7 +74,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        holder.bindMovie(movies.get(position)); // Bind the movie in the given position.
+        holder.bindMovie(movies.get(position), position); // Bind the movie in the given position.
         holder.addButtonListeners(position); // Add listeners to the buttons of the movie in the given position.
     }
 
@@ -92,6 +92,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     public class MovieViewHolder extends RecyclerView.ViewHolder {
         private Context context;
 
+        private ConstraintLayout cardOutline;
         private String movieID;
         private ImageView poster;
         private TextView title;
@@ -112,6 +113,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             super(movieView);
             context = movieView.getContext();
 
+            cardOutline = (ConstraintLayout) movieView.findViewById(R.id.cardOutline);
             poster = (ImageView) movieView.findViewById(R.id.poster);
             title = (TextView) movieView.findViewById(R.id.title);
             year = (TextView) movieView.findViewById(R.id.year);
@@ -127,8 +129,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         /**
          * Method that binds the given movie to the view passed as a parameter in the class constructor.
          * @param movie the movie to be bound to the view passed as a parameter in the class constructor.
+         * @param position the index of the movie in the ArrayList of movies.
          */
-        public void bindMovie(MovieModel movie) {
+        public void bindMovie(MovieModel movie, int position) {
             // Set all the easy properties of the view.
             movieID = movie.getMovieID();
             poster.setImageDrawable(context.getResources().getDrawable(context.getResources().getIdentifier(movie.getPosterPath(), "drawable", context.getPackageName())));
@@ -139,6 +142,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             plot.setText(context.getResources().getString(R.string.plot_summary, movie.getMovieOverview()));
             if (new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
                 favouriteButton.setText("Unfavourite");
+            }
+            if (position == 0) {
+                if (favouriteRemoves) {
+                    cardOutline.setPadding(cardOutline.getPaddingStart(), toDP(8), cardOutline.getPaddingEnd(), cardOutline.getPaddingBottom());
+                }
+                else {
+                    cardOutline.setPadding(cardOutline.getPaddingStart(), toDP(0), cardOutline.getPaddingEnd(), cardOutline.getPaddingBottom());
+                }
+            }
+            if (position == movies.size() - 1) {
+                cardOutline.setPadding(cardOutline.getPaddingStart(), cardOutline.getPaddingTop(), cardOutline.getPaddingEnd(), toDP(0));
             }
 
             // Create an Arraylist with the IDs of each of the genres declared in the values/ids.xml file.
@@ -179,7 +193,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     constraintSet.connect(category.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
                 }
                 else {
-                    constraintSet.setMargin(category.getId(), ConstraintSet.START, (int)(8 * context.getResources().getDisplayMetrics().density));
+                    constraintSet.setMargin(category.getId(), ConstraintSet.START, toDP(8));
                     constraintSet.connect(previousCategory.getId(), ConstraintSet.END, category.getId(), ConstraintSet.START);
                     constraintSet.connect(category.getId(), ConstraintSet.START, previousCategory.getId(), ConstraintSet.END);
                     if (lastCategory) {
@@ -190,6 +204,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 previousCategory = category;
             }
             constraintSet.applyTo(categories);
+        }
+
+        private int toDP(int dpValue) {
+            return (int) (dpValue * context.getResources().getDisplayMetrics().density);
         }
 
         /**

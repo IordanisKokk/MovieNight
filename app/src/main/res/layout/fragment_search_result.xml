@@ -7,34 +7,22 @@
     tools:context=".ui.searchResultFragment">
 
     <TextView
-        android:id="@+id/searchTitleLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Search Results for: "
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="50dp"
-        />
-
-    <TextView
         android:id="@+id/searchTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text=""
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toTopOf="@id/searchTitleLabel"
-        app:layout_constraintLeft_toRightOf="@id/searchTitleLabel"
-        />
+        android:layout_marginHorizontal="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchMovieCards"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchTitleLabel"/>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/searchTitle"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

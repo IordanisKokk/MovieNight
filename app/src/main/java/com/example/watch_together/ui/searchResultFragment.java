@@ -84,7 +84,7 @@ public class searchResultFragment extends Fragment {
 
         Log.d("de", "Searching for title: " + titleSearch + " and genres:" + genres);
         searchTitle = (TextView) view.findViewById(R.id.searchTitle);
-        searchTitle.setText(titleSearch.toString());
+        searchTitle.setText(getResources().getString(R.string.search_term, titleSearch));
 
         // Get and set a LinearLayoutManager for the RecyclerView that will hold the movie cards.
         recyclerView = (RecyclerView) view.findViewById(R.id.searchMovieCards);
