@@ -143,23 +143,19 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             if (new DisFavUtil().isFavouriteMovie(context, userID, movieID)) {
                 favouriteButton.setText("Unfavourite");
             }
-            if (position == 0) {
-                if (favouriteRemoves) {
-                    cardOutline.setPadding(cardOutline.getPaddingStart(), toDP(8), cardOutline.getPaddingEnd(), cardOutline.getPaddingBottom());
-                }
-                else {
-                    cardOutline.setPadding(cardOutline.getPaddingStart(), toDP(0), cardOutline.getPaddingEnd(), cardOutline.getPaddingBottom());
-                }
-            }
-            if (position == movies.size() - 1) {
-                cardOutline.setPadding(cardOutline.getPaddingStart(), cardOutline.getPaddingTop(), cardOutline.getPaddingEnd(), toDP(0));
-            }
 
             // Create an Arraylist with the IDs of each of the genres declared in the values/ids.xml file.
             ArrayList<String> genres = movie.getGenres();
             ArrayList<Integer> genreIDs = new ArrayList<>();
             genreIDs.add(R.id.genre1);
             genreIDs.add(R.id.genre2);
+            genreIDs.add(R.id.genre3);
+            genreIDs.add(R.id.genre4);
+            genreIDs.add(R.id.genre5);
+            genreIDs.add(R.id.genre6);
+            genreIDs.add(R.id.genre7);
+            genreIDs.add(R.id.genre8);
+            genreIDs.add(R.id.genre9);
 
             // Create a ConstraintSet that is a copy of the current ConstraintSet of the categories ConstraintLayout.
             ConstraintSet constraintSet = new ConstraintSet();
